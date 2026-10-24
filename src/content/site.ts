@@ -170,7 +170,7 @@ export const home = {
   about: {
     title: "Wer wir sind",
     paragraphs: [
-      "Die Fehntjer Wölfe spielen beim SV Grossefehn e.V. in Ostfriesland. Was ansteht – Training, Spieltage, alles andere – teilen wir über Instagram und irgendwann auch hier.",
+      "Die Fehntjer Wölfe spielen beim SV Grossefehn e.V. in Ostfriesland. Auf Instagram zeigen wir, was auf und neben dem Platz passiert – Eindrücke vom Training, von Spieltagen und aus dem Vereinsleben.",
     ],
   },
 

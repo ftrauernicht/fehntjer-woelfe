@@ -59,7 +59,7 @@ Im Strato-Kundenbereich unter **Domainverwaltung → DNS-Einstellungen**:
 | Typ | Name | Wert | Aktion |
 |---|---|---|---|
 | A | `@` | `216.198.79.1` | ersetzt `217.160.0.41` |
-| A | `@` | `64.29.17.1` | **zweiter** A-Eintrag, zusätzlich |
+| A | `@` | `64.29.17.1` | optional, nur falls mehrere A-Einträge möglich sind |
 | CNAME | `www` | `41a9139b0b1649f1.vercel-dns-017.com.` | ersetzt den bisherigen Eintrag |
 | AAAA | `@` | `2001:8d8:100f:f000::200` | **löschen** |
 | AAAA | `www` | `2001:8d8:100f:f000::200` | **löschen** |
@@ -67,8 +67,10 @@ Im Strato-Kundenbereich unter **Domainverwaltung → DNS-Einstellungen**:
 
 Drei Dinge, an denen es sonst scheitert:
 
-1. **Beide A-Einträge setzen.** Vercel nennt zwei Adressen; mit nur einer
-   funktioniert es, aber ohne Ausfallsicherheit.
+1. **Ein A-Eintrag genügt.** Vercel nennt zwei Adressen, aber Strato lässt für
+   die Hauptdomain nur einen zu. Das ist unkritisch: Vercel liefert über ein
+   Anycast-Netz aus, die einzelne Adresse ist also bereits verteilt. Der zweite
+   Eintrag wäre zusätzliche Ausfallsicherheit, keine Voraussetzung.
 2. **Die AAAA-Einträge wirklich löschen.** Vercel unterstützt bei fremdem DNS
    kein IPv6. Bleibt ein AAAA stehen, erreichen Besucher mit IPv6 weiterhin die
    alte Strato-Seite – sporadisch und schwer zu diagnostizieren.

@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vitest schreibt hierhin den HTML-Bericht. Fremder, generierter Code -
+    // der soll weder geprueft noch bemaengelt werden.
+    "coverage/**",
   ]),
 ]);
 

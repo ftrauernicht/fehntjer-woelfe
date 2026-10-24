@@ -30,15 +30,15 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.1.2",
-    "@vitest/coverage-v8": "^4.1.12",
-    "eslint": "^9",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^10.13.0",
     "eslint-config-next": "16.4.3",
     "jest-axe": "^11.0.0",
     "jsdom": "^29.1.1",
     "sharp": "^0.35.5",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "vitest": "^4.1.12"
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5"
   },
   "description": "Platzhalterseite der Fehntjer Woelfe, der F-Jugend des SV Grossefehn."
 }
