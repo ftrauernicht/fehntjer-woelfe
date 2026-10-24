@@ -68,20 +68,14 @@ Inhalt der Zone (alles öffentlich abfragbar):
 | CNAME | `autoconfig` | `autoconfigure.strato.de` | automatische Einrichtung in Mailprogrammen |
 | CAA | `@` | pki.goog, sectigo.com, letsencrypt.org | erlaubte Zertifikatsaussteller |
 
-### Warum die Nameserver umgezogen sind
+### Warum nicht bei Strato
 
-Strato hielt auf der Hauptdomain einen AAAA-Eintrag auf die eigene
-IPv6-Adresse und bietet in der Oberfläche **kein Löschen** an, nur Umsetzen.
-Vercel unterstützt bei fremdem DNS kein IPv6 und stellte deshalb kein
-Zertifikat aus; Besucher über IPv6 landeten weiter auf der Strato-Parkseite.
+Kurz: Stratos DNS kennt kein `ALIAS` auf dem Apex und erzwingt dort einen
+AAAA-Eintrag, den die Oberfläche nicht löschen lässt. Vercel unterstützt bei
+fremdem DNS kein IPv6 – damit wäre kein Zertifikat zustande gekommen.
 
-Vercels eigenes DNS kennt dagegen `ALIAS` auf dem Apex – damit entfällt der
-AAAA-Eintrag ersatzlos. Der Umzug war die Lösung, nicht der Umweg.
-
-Strato blendet beim Umstellen einen Hinweis ein, die E-Mail-Funktionen stünden
-dann nicht zur Verfügung. Nach Stratos eigener Dokumentation bedeutet das:
-Strato pflegt die Einträge nicht mehr automatisch – das Postfach läuft weiter,
-solange der MX auf Strato zeigt. Genau so ist es eingerichtet.
+Die ausführliche Abwägung samt aller geprüften und verworfenen Wege steht in
+[ADR 0005](adr/0005-nameserver-bei-vercel.md).
 
 ---
 

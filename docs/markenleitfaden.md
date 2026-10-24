@@ -184,8 +184,13 @@ daraus ein Wappenschild mit Blümchen-Emblem.
 
 Die Wölfe sind eine **Nachwuchsmannschaft im Kleinfeld**: Mini-Tore, ein paar
 Eltern am Zaun, ein kleiner Turnierpokal. **Kein Stadion, kein tosendes
-Publikum, kein Riesenpokal, kein Konfettiregen.** Die erste Szenenliste lag
-hier daneben.
+Publikum, kein Riesenpokal, kein Konfettiregen.**
+
+Das steht im NEGATIVE-Block des Steckbriefs, nicht in einzelnen Szenen –
+Stadion, Tribünen, Flutlichtmasten, Publikum und Bandenwerbung sind generell
+verboten. Der Grund: Zwei Bilder hatten ein Stadion **von sich aus**
+dazuerfunden, obwohl keine Szene es nannte. Eine Regel pro Szene reicht dafür
+nicht.
 
 ### Formate
 
@@ -197,12 +202,16 @@ hier daneben.
 
 ### Prüfpflicht
 
-**Jedes generierte Bild wird vor der Veröffentlichung einzeln angesehen.** Bei
-einem Durchlauf von fünfzehn Motiven waren vier unbrauchbar:
+**Jedes generierte Bild wird vor der Veröffentlichung einzeln angesehen.**
+Die Quote ist kein Zufall: Bei einem Durchlauf von fünfzehn Motiven waren vier
+unbrauchbar, bei einem späteren von zehn immerhin noch drei.
+
+Was aufgetreten ist:
 
 - ein Bild zeigte **zwei** Wölfe, obwohl die Szene auf einen gestellt war
-- zwei Bilder hatten **braune statt blaue** Augen
-- ein Wappen war zu einem Schild mit Blumenmuster geworden
+- Bilder mit **braunen statt blauen** Augen
+- ein Wappen, das zu einem Schild mit Blumenmuster geworden war
+- **erfundene Stadien** in Szenen, die keines nannten
 
 Weitere typische Fehler: drei Ohren, zwei Schwänze, zwei identische Wölfe,
 Textfetzen im Hintergrund, abgeschnittene Füße.
