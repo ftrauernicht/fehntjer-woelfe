@@ -47,6 +47,16 @@ Schreibweisen des Namens, die Beschreibung der zwei Maskottchen und die
 Regeln, an denen schon etwas schiefgegangen ist. Vor jeder Bild-, Logo- oder
 Mottoerzeugung lesen.
 
+## Automatik – nicht aus Versehen entwerten
+
+Zwei Workflows halten den Betrieb ohne Nachsehen am Laufen:
+`wachhund.yml` prüft täglich die veröffentlichte Seite,
+`dependabot-zusammenfuehren.yml` führt grüne Dependabot-Updates selbst
+zusammen. Beide verlassen sich darauf, dass `ci.yml` **weiterhin streng ist**
+und `CI` heißt – wer die CI aufweicht oder umbenennt, nimmt der
+Zusammenführung ihr einziges Prüftor. Begründung in
+[`docs/adr/0009-betrieb-ohne-nachsehen.md`](docs/adr/0009-betrieb-ohne-nachsehen.md).
+
 ## Bilder
 
 `src/content/gallery.json` ist die gemeinsame Quelle für die Website und für

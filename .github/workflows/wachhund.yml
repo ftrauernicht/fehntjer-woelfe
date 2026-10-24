@@ -1,0 +1,49 @@
+name: Wachhund
+
+# Prüft täglich die veröffentlichte Seite von außen: Erreichbarkeit,
+# Indexierungsfreigabe, Bilddateien, DNS, Mailversand und Zertifikat.
+# Schlägt etwas an, wird dieser Lauf rot und GitHub schickt dem Eigentümer
+# eine Mail. Niemand muss also regelmäßig nachsehen.
+#
+# Zwei Dinge, die man dazu wissen muss:
+#
+# 1. Was genau geprüft wird und warum, steht im Kopf von
+#    `scripts/pruefe-live.mjs` – nicht hier.
+# 2. GitHub schaltet geplante Läufe nach 60 Tagen ohne Aktivität im
+#    Repository ab und schickt vorher eine Mail. Die wöchentlichen
+#    Dependabot-Zusammenführungen gelten als Aktivität und halten den
+#    Wachhund damit von allein wach.
+
+on:
+  schedule:
+    # 06:30 UTC, also 07:30 oder 08:30 Ortszeit – eine etwaige Mail liegt
+    # damit vor dem Frühstück im Postfach.
+    - cron: "30 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wachhund
+  cancel-in-progress: false
+
+jobs:
+  pruefen:
+    name: Veröffentlichte Seite prüfen
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      # Kein `npm ci`: das Skript nutzt nur fetch, node:dns und node:tls.
+      # Der Lauf braucht damit keine Abhängigkeiten und keine Minute.
+      - name: Live-Prüfung
+        run: node scripts/pruefe-live.mjs

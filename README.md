@@ -104,15 +104,37 @@ wenn sie unterschritten werden.
 etwa 30 bis 40 Prozent der üblichen Probleme. Aber es findet sie bei jedem
 Lauf.
 
-## CI
+## CI und Automatik
 
-`.github/workflows/ci.yml` läuft bei jedem Push und Pull Request: Lint,
-Typecheck, Tests mit Abdeckung, Produktions-Build, dazu `npm audit`.
-`codeql.yml` ergänzt eine wöchentliche statische Analyse. Dependabot fasst
-kleine Versionssprünge zu einem wöchentlichen Pull Request zusammen.
+Der Betrieb soll kein regelmäßiges Nachsehen verlangen.
+
+| Workflow | Wann | Was |
+|---|---|---|
+| `ci.yml` | Push, Pull Request | Lint, Typecheck, Tests mit Abdeckung, Produktions-Build, `npm audit`, Bildbestand |
+| `codeql.yml` | wöchentlich | statische Sicherheitsanalyse |
+| `wachhund.yml` | täglich, 06:30 UTC | prüft die **veröffentlichte** Seite von außen |
+| `dependabot-zusammenfuehren.yml` | nach grüner CI | führt Dependabots Pull Request selbst zusammen |
+
+**Der Wachhund** prüft Erreichbarkeit, Indexierungsfreigabe, Sitemap,
+Vorschaubild, beide Wappen, jedes Galeriebild, A-Eintrag, Abwesenheit eines
+AAAA-Eintrags, MX, SPF, DMARC und die Restlaufzeit des Zertifikats. Schlägt
+etwas an, wird der Lauf rot und GitHub schickt eine Mail. Derselbe Lauf
+funktioniert lokal:
+
+```bash
+npm run pruefe:live
+```
+
+**Dependabot** fasst kleine Versionssprünge zu einem wöchentlichen Pull
+Request zusammen. Dieser und Updates der GitHub-Actions gehen nach grüner CI
+von allein nach `main`. Major-Sprünge bei npm-Paketen bleiben offen – die
+ändern Verhalten, nicht nur Zahlen.
 
 Alle Workflows laufen mit `contents: read`; nur der CodeQL-Job darf in den
-Sicherheitsbereich schreiben.
+Sicherheitsbereich schreiben, nur die Zusammenführung nach `contents: write`.
+
+Warum nicht GitHubs eingebautes Auto-Merge, und was der Wachhund absichtlich
+nicht prüft: [ADR 0009](docs/adr/0009-betrieb-ohne-nachsehen.md).
 
 ## Suchmaschinen
 
@@ -127,11 +149,12 @@ dieser Reihenfolge:
 
 1. **Den Link ins Instagram-Profil setzen.** Der einzige eingehende Link, über
    den die Mannschaft selbst verfügt.
-2. **Inhalt ergänzen**, sobald es ihn gibt: Trainingszeiten, Anfahrt,
-   Ansprechpartner, Spielberichte. Jeder echte Absatz zählt mehr als jede
-   weitere Meta-Angabe.
-3. **In der Google Search Console** die Sitemap einreichen.
-4. **Beim Verein um einen Link bitten.**
+2. **Inhalt ergänzen**, sobald es ihn gibt: Trainingszeiten, Ansprechpartner,
+   Spielberichte. Jeder echte Absatz zählt mehr als jede weitere Meta-Angabe.
+3. **Beim Verein um einen Link bitten.**
+
+Die Domain ist als Property in der Google Search Console eingerichtet, die
+Sitemap ist eingereicht und wird gelesen.
 
 Die Schreibweisen „Wölfe"/„Woelfe" und „Großefehn"/„Grossefehn" kommen
 absichtlich beide im Seitentext vor, in ganzen Sätzen statt als Stichwortliste.

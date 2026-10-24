@@ -1,0 +1,73 @@
+name: Dependabot zusammenführen
+
+# Führt Dependabots Pull Requests selbst zusammen, damit sich niemand
+# wöchentlich damit befassen muss.
+#
+# Warum `workflow_run` und nicht `pull_request`: so steht das Ergebnis der CI
+# schon fest, wenn dieser Lauf startet. Die Alternative – GitHubs
+# „Auto-Merge" – würde ohne geschützten Zweig sofort zusammenführen, also
+# bevor Lint, Typen, Tests, Build und `npm audit` durch sind. Und ein
+# geschützter Zweig würde auch die eigenen direkten Pushes blockieren.
+#
+# Was zusammengeführt wird:
+#
+# - der gesammelte patch-und-minor-Pull-Request aus `dependabot.yml`
+# - Versionssprünge der GitHub-Actions
+#
+# Major-Sprünge bei npm-Paketen bleiben offen. Die ändern Verhalten, nicht
+# nur Zahlen – die sieht sich jemand an. Sie kommen einzeln und selten.
+#
+# Zusammengeführt wird nur bei grüner CI. Ein Update, das Lint, Typen, Tests,
+# Build oder `npm audit` bricht, bleibt also ebenfalls liegen.
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  zusammenfuehren:
+    name: Grünes Update übernehmen
+    # Der eigentliche Filter ist der Zweigname im Schritt unten. Hier steht
+    # nur, was sicher feststellbar ist: es war ein Pull Request, und die CI
+    # war grün.
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Zweig prüfen und zusammenführen
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZWEIG: ${{ github.event.workflow_run.head_branch }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          case "$ZWEIG" in
+            dependabot/npm_and_yarn/patch-und-minor-*) ;;
+            dependabot/github_actions/*) ;;
+            *)
+              echo "Zweig '$ZWEIG' ist kein Fall für die Automatik."
+              exit 0
+              ;;
+          esac
+
+          # Ein erneuter CI-Lauf auf einem schon zusammengeführten Pull
+          # Request darf diesen Lauf nicht rot machen - sonst kommt eine Mail
+          # über ein Problem, das keines ist.
+          nummer=$(gh api "repos/$REPO/commits/$SHA/pulls" \
+            --jq '[.[] | select(.state == "open")][0].number // empty')
+
+          if [ -z "$nummer" ]; then
+            echo "Zu $SHA ist kein offener Pull Request mehr vorhanden."
+            exit 0
+          fi
+
+          echo "Führe #$nummer zusammen ($ZWEIG)."
+          gh pr merge "$nummer" --repo "$REPO" --squash --delete-branch
