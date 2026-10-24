@@ -1,169 +1,71 @@
-# DNS, Domain und E-Mail
+# DNS und E-Mail
 
-Stand der Prüfung: **24.10.2026**. Alle Werte unten sind an diesem Tag
-nachgemessen, nicht aus einer Anleitung abgeschrieben.
+Betriebsanleitung. **Warum** die Einrichtung so aussieht, steht in
+[ADR 0005](adr/0005-nameserver-bei-vercel.md) und
+[ADR 0006](adr/0006-spf-ueber-strato-regel.md).
 
-## Ist-Zustand
+## Zuständigkeiten
 
-```
-$ nslookup -type=NS fehntjer-woelfe.de
-  docks07.rzone.de, shades04.rzone.de     → Strato
-
-$ nslookup -type=MX fehntjer-woelfe.de
-  5  smtpin.rzone.de                       → Strato-Postfach, bereits aktiv
-
-$ nslookup -type=A fehntjer-woelfe.de
-  217.160.0.41                             → Strato-Parkseite
-
-$ nslookup -type=TXT fehntjer-woelfe.de
-  (kein SPF-Eintrag)
-```
-
-Zwei Dinge fallen auf:
-
-1. **Das Postfach ist schon verdrahtet.** Der MX zeigt auf Strato. An dieser
-   Stelle ist nichts zu tun.
-2. **Es fehlt ein SPF-Eintrag.** Ohne SPF landen ausgehende Mails von
-   `mail@fehntjer-woelfe.de` häufiger im Spam-Ordner.
-
-## Der AAAA-Eintrag – ungelöst
-
-**Stand 24.10.2026: Die Hauptdomain ist über HTTPS noch nicht erreichbar.**
-`www.fehntjer-woelfe.de` funktioniert bereits.
-
-Ursache: Auf `fehntjer-woelfe.de` liegt ein AAAA-Eintrag auf Stratos eigene
-IPv6-Adresse. Vercel meldet ihn als Konflikt und stellt deshalb kein
-Zertifikat aus. Besucher über IPv6 – in Deutschland die Mehrheit – landen
-weiterhin bei Strato.
-
-Was geprüft und **verworfen** wurde:
-
-| Weg | Warum nicht |
+| | |
 |---|---|
-| AAAA bei Strato löschen | Die Oberfläche sieht kein Löschen vor, nur „STRATO Standard" oder „eigene IP". Stratos eigener FAQ-Artikel 539 kennt ebenfalls nur das Setzen. |
-| AAAA auf eine Vercel-IPv6 zeigen | Vercel hat keine. Weder `cname.vercel-dns.com` noch das projekteigene CNAME-Ziel führen einen AAAA-Eintrag. |
-| Nameserver zu Vercel umziehen | Strato blendet dazu ein: **„Bei der Verwendung eigener Nameserver stehen STRATO E-Mail-Funktionen für diese Domain nicht zur Verfügung."** Das würde das Vereinspostfach abschalten. |
-| `www` als kanonische Adresse | Technisch möglich, aber die Hauptdomain zeigt IPv6-Besuchern weiter die Parkseite. |
+| Registrar | STRATO |
+| Autoritatives DNS | **Vercel** (`ns1.vercel-dns.com`, `ns2.vercel-dns.com`) |
+| Website | Vercel, Projekt `fehntjer-woelfe` |
+| Postfach und Versand | STRATO |
 
-**Nächster Schritt:** Strato-Support bitten, den AAAA-Record für
-`fehntjer-woelfe.de` ersatzlos zu löschen. Formulierungsvorschlag:
+Die Domain ist bei Strato registriert, delegiert aber an Vercel. Alle
+DNS-Einträge – auch die für Mail – werden deshalb **bei Vercel** gepflegt.
+Strato kann sie nicht mehr automatisch setzen.
 
-> Bitte löschen Sie den AAAA-Record für die Domain fehntjer-woelfe.de
-> ersatzlos. Die Domain wird extern betrieben; der Anbieter unterstützt kein
-> IPv6, und der vorhandene Eintrag verhindert die Ausstellung des
-> SSL-Zertifikats. Der MX-Eintrag soll unverändert bleiben.
+## Die Zone
 
-### Falls doch einmal die Nameserver umziehen
+Im Vercel-Dashboard unter **Domains → fehntjer-woelfe.de → DNS**, oder:
 
-Dann müssen diese Einträge beim neuen Anbieter nachgebaut werden – mehr sind
-es nicht:
-
-```
-MX     @           smtpin.rzone.de          Priorität 5
-TXT    @           v=spf1 redirect=_spf.strato.com
-TXT    _dmarc      v=DMARC1;p=reject;
-CNAME  autoconfig  autoconfigure.strato.de
+```bash
+vercel dns ls fehntjer-woelfe.de
 ```
 
-In der Vercel-Zone liegen vier dieser Einträge bereits angelegt. Sie sind
-**wirkungslos**, solange Strato autoritativ ist – sie stammen aus einem
-Versuch, der am Mail-Hinweis oben gescheitert ist. Wer sie stört, kann sie in
-Vercel unter DNS löschen.
-
-## Entscheidung: DNS bleibt bei Strato
-
-Vercel kann die Nameserver übernehmen. **Machen wir nicht.**
-
-Begründung: Strato richtet die Mail-Einträge (MX, Autodiscover, später DKIM)
-beim Anlegen des Postfachs automatisch ein. Zieht man die Nameserver zu Vercel
-um, müssen all diese Einträge von Hand nachgebaut werden – und ein Tippfehler
-bedeutet, dass die Vereinsadresse keine Mails mehr empfängt. Der Gewinn wäre
-gering: Vercel funktioniert mit fremdem DNS genauso gut.
-
-Also: **DNS bei Strato, nur zwei Einträge zeigen auf Vercel.**
-
-## Umstellung auf die echte Domain
-
-Die Seite läuft zunächst unter einer `*.vercel.app`-Adresse. Solange das so
-ist, hält sie sich selbst aus dem Suchindex (siehe `src/app/robots.ts`).
-
-### Schritt 1 – Domain in Vercel eintragen
-
-**Erledigt am 24.10.2026.** `fehntjer-woelfe.de` und `www.fehntjer-woelfe.de`
-sind dem Projekt zugeordnet.
-
-### Schritt 2 – Einträge bei Strato setzen
-
-Die folgenden Werte sind am 24.10.2026 mit `vercel domains verify` aus **diesem
-Projekt** ausgelesen. Sie gelten nicht allgemein für Vercel – ältere Anleitungen
-nennen andere Adressen.
-
-Im Strato-Kundenbereich unter **Domainverwaltung → DNS-Einstellungen**:
-
-| Typ | Name | Wert | Aktion |
+| Typ | Name | Wert | Wofür |
 |---|---|---|---|
-| A | `@` | `216.198.79.1` | ersetzt `217.160.0.41` |
-| A | `@` | `64.29.17.1` | optional, nur falls mehrere A-Einträge möglich sind |
-| CNAME | `www` | `41a9139b0b1649f1.vercel-dns-017.com.` | ersetzt den bisherigen Eintrag |
-| AAAA | `@` | `2001:8d8:100f:f000::200` | **löschen** |
-| AAAA | `www` | `2001:8d8:100f:f000::200` | **löschen** |
-| MX | `@` | `smtpin.rzone.de` | **unverändert lassen** |
+| ALIAS | `@` | Vercel | Website. `ALIAS` auf dem Apex, deshalb kein AAAA |
+| ALIAS | `*` | Vercel | Subdomains |
+| MX | `@` | `smtpin.rzone.de`, Priorität 5 | Posteingang bei Strato |
+| TXT | `@` | `v=spf1 redirect=_spf.strato.com` | SPF |
+| TXT | `_dmarc` | `v=DMARC1;p=reject;` | DMARC |
+| CNAME | `autoconfig` | `autoconfigure.strato.de` | Einrichtung in Mailprogrammen |
+| CAA | `@` | pki.goog, sectigo.com, letsencrypt.org | erlaubte Zertifikatsaussteller |
 
-Drei Dinge, an denen es sonst scheitert:
+Einen Eintrag ändern:
 
-1. **Ein A-Eintrag genügt.** Vercel nennt zwei Adressen, aber Strato lässt für
-   die Hauptdomain nur einen zu. Das ist unkritisch: Vercel liefert über ein
-   Anycast-Netz aus, die einzelne Adresse ist also bereits verteilt. Der zweite
-   Eintrag wäre zusätzliche Ausfallsicherheit, keine Voraussetzung.
-2. **Die AAAA-Einträge wirklich löschen.** Vercel unterstützt bei fremdem DNS
-   kein IPv6. Bleibt ein AAAA stehen, erreichen Besucher mit IPv6 weiterhin die
-   alte Strato-Seite – sporadisch und schwer zu diagnostizieren.
-3. **Den MX nicht anfassen.** Sonst kommt keine Post mehr an
-   `mail@fehntjer-woelfe.de` an.
-
-### Schritt 3 – SPF
-
-**Erledigt am 24.10.2026** – und es war dringender als gedacht.
-
-Vorgefunden wurde eine gefährliche Kombination: DMARC stand auf
-`v=DMARC1;p=reject;` – der schärfsten Stufe –, **ohne dass ein SPF-Eintrag
-existierte** und ohne auffindbares DKIM. `p=reject` weist empfangende Server
-an, nicht authentifizierte Mails abzulehnen. Ohne SPF und DKIM betrifft das
-jede Mail von `mail@fehntjer-woelfe.de`.
-
-Behoben über die Strato-Oberfläche: **Domainverwaltung → DNS → TXT- und
-CNAME-Records → STRATO SPF-Regel → „Standard STRATO Mailserver"**. Strato
-setzt daraufhin:
-
-```
-fehntjer-woelfe.de   TXT   v=spf1 redirect=_spf.strato.com
+```bash
+vercel dns ls  fehntjer-woelfe.de          # Kennung ablesen
+vercel dns rm  <kennung>
+vercel dns add fehntjer-woelfe.de @ TXT "…"
 ```
 
-Die Kette löst vollständig auf (geprüft):
+## Mail-Authentifizierung
 
-```
-_spf.strato.com → ip4:81.169.146.128/25 ip4:85.215.255.0/24
-                  ip6:2a01:238:20a:202::0/64 ip6:2a01:238:400::0/48
-                  ip4:81.169.144.153 ip6:2a01:238:20a:202:50ff::153 -all
-```
+Die DMARC-Regel steht auf `p=reject`. Empfangende Server **lehnen** damit
+jede Mail ab, die weder per SPF noch per DKIM authentifiziert ist.
 
-Die beiden anderen Optionen („FAIL"/„SOFTFAIL – Mailserver laut MX") wären
-falsch gewesen: Der MX (`smtpin.rzone.de`) ist der *Eingangs*server, Mails
-gehen über andere Systeme raus.
+DKIM gibt es nicht: Das Paket „Mail Starter" bietet keine kundeneigene
+Einrichtung. **Die Ausrichtung trägt allein SPF.**
 
-**Offen:** DKIM. Unter den üblichen Selektoren war keiner zu finden. Mit
-`p=reject` sollte auch DKIM aktiviert werden – im Strato-Kundenbereich unter
-E-Mail. Danach prüfen, ob dort ein `_domainkey`-Eintrag erscheint.
+Daraus folgt dreierlei:
 
-**Wichtig:** Es darf nur *einen* SPF-Eintrag pro Domain geben. Ein zweiter
-macht beide ungültig.
+1. **Fällt der SPF-Eintrag weg, kommt keine Post mehr an.** Nicht im
+   Spam-Ordner – abgelehnt.
+2. **Ein neuer Versandweg muss vorher in den SPF.** Newsletter-Tool,
+   Vereinssoftware, Kontaktformular: erst den Server eintragen, dann
+   versenden.
+3. **Nur ein SPF-Eintrag pro Domain.** Ein zweiter macht beide ungültig. Neue
+   Absender werden als weiterer `include:` in den bestehenden Eintrag
+   aufgenommen.
 
-### Schritt 4 – Umgebungsvariable setzen
+Kommt später ein Paket mit DKIM dazu, muss der `_domainkey`-Eintrag von Hand
+in die Vercel-Zone übernommen werden.
 
-**Erst wenn die Domain tatsächlich auf Vercel zeigt.** Vorher richtet diese
-Variable Schaden an: sie gibt die Indexierung frei und setzt alle Canonicals
-auf `fehntjer-woelfe.de`. Zeigt die Domain zu diesem Zeitpunkt noch auf die
-Strato-Parkseite, verweist die ausgelieferte Seite auf fremden Inhalt.
+## Website-Indexierung freigeben
 
 In Vercel unter **Settings → Environment Variables**:
 
@@ -171,49 +73,49 @@ In Vercel unter **Settings → Environment Variables**:
 NEXT_PUBLIC_SITE_URL = https://fehntjer-woelfe.de
 ```
 
-Erst damit gibt die Seite Canonicals, Sitemap und robots.txt auf die echte
-Domain aus – und erst damit erlaubt sie überhaupt die Indexierung. Nach dem
-Setzen einmal neu deployen.
+Danach einmal neu deployen. Erst damit gibt die Seite Canonicals, Sitemap und
+`robots.txt` auf die echte Domain aus – und erlaubt die Indexierung. Siehe
+[ADR 0001](adr/0001-indexierungssperre.md).
 
-### Schritt 5 – Impressum
+## Gesundheitsprüfung
 
-Erledigt: In `src/content/site.ts` stehen Name und Ort, keine Platzhalter mehr.
-Die zweite Bedingung der Indexierungssperre ist damit erfüllt, es fehlt nur
-noch `NEXT_PUBLIC_SITE_URL` aus Schritt 4.
-
-Die Anschrift ist vollständig, inklusive Straße.
-
-## Prüfen, ob es geklappt hat
+Braucht keinen Zugang:
 
 ```bash
-# Zeigt die Domain auf Vercel?
-nslookup -type=A fehntjer-woelfe.de 8.8.8.8
+# Zeigt die Domain auf Vercel, und ist kein AAAA gesetzt?
+nslookup -type=A    fehntjer-woelfe.de 8.8.8.8
+nslookup -type=AAAA fehntjer-woelfe.de 8.8.8.8     # muss leer sein
 
-# Empfängt das Postfach weiterhin?
-nslookup -type=MX fehntjer-woelfe.de 8.8.8.8     # muss smtpin.rzone.de bleiben
+# Delegierung angekommen?
+nslookup -type=NS   fehntjer-woelfe.de 8.8.8.8     # ns1/ns2.vercel-dns.com
 
-# Ist SPF gesetzt?
-nslookup -type=TXT fehntjer-woelfe.de 8.8.8.8
+# Kommt Post an?
+nslookup -type=MX   fehntjer-woelfe.de 8.8.8.8     # smtpin.rzone.de
 
-# Erlaubt die Seite jetzt Indexierung?
-curl -s https://fehntjer-woelfe.de/robots.txt
+# SPF und DMARC gesetzt?
+nslookup -type=TXT  fehntjer-woelfe.de 8.8.8.8
+nslookup -type=TXT  _dmarc.fehntjer-woelfe.de 8.8.8.8
+
+# Seite erreichbar, Indexierung freigegeben?
+curl -sI https://fehntjer-woelfe.de/ | head -1
+curl -s  https://fehntjer-woelfe.de/robots.txt
 ```
 
-Die letzte Zeile muss `Allow: /` enthalten und auf die Sitemap zeigen. Steht
-dort `Disallow: /`, fehlt `NEXT_PUBLIC_SITE_URL` – lokal mit gesetzter Variable
-getestet und bestätigt.
+Steht in `robots.txt` ein `Disallow: /`, fehlt `NEXT_PUBLIC_SITE_URL` oder das
+Impressum ist unvollständig. Beides Absicht, kein Fehler.
 
-DNS-Änderungen bei Strato brauchen erfahrungsgemäß bis zu 24 Stunden, bis sie
-überall sichtbar sind.
+## Wenn etwas klemmt
 
-## Was danach noch ansteht
+| Symptom | Wahrscheinliche Ursache |
+|---|---|
+| HTTPS antwortet nicht, HTTP schon | Zertifikat noch nicht ausgestellt. Im Vercel-Dashboard unter Domains nach Konflikten sehen |
+| Seite über Mobilfunk anders als über WLAN | IPv6 gegen IPv4. Prüfen, ob irgendwo doch ein AAAA-Eintrag steht |
+| Mails kommen nicht an | MX prüfen. Er muss auf `smtpin.rzone.de` zeigen |
+| Mails werden abgelehnt | SPF prüfen. Mit `p=reject` ist ein fehlender SPF sofort fatal |
+| Änderung wirkt nicht | DNS braucht bis zu 24 Stunden. Autoritativ gegenprüfen statt über einen Resolver |
 
-- **DKIM und DMARC** für die Mailadresse. Beides erhöht die Zustellrate
-  deutlich. Strato bietet DKIM im Kundenbereich an; DMARC kommt als
-  TXT-Eintrag auf `_dmarc` und sollte mit `p=none` beginnen, damit man erst
-  einmal Berichte sammelt, bevor man schärfer stellt.
-- **Google Search Console** einrichten und die Sitemap einreichen. Das ist der
-  schnellste Weg, überhaupt in den Index zu kommen.
-- **Den Link ins Instagram-Profil setzen.** Das ist der einzige eingehende
-  Link, über den der Verein selbst verfügt – und für eine neue Domain das
-  stärkste Signal, das ohne fremdes Zutun zu haben ist.
+Autoritativ fragen:
+
+```bash
+nslookup -type=TXT fehntjer-woelfe.de ns1.vercel-dns.com
+```

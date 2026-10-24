@@ -32,6 +32,13 @@ aus.
    im Verein – unter ihr gibt es noch die G-Jugend. Strukturierte Daten dürfen
    nichts enthalten, was nicht auch sichtbar auf der Seite steht.
 
+## Warum etwas so ist
+
+Entscheidungen samt verworfener Alternativen stehen in
+[`docs/adr/`](docs/adr/). **Das README beschreibt nur den Stand der Dinge** –
+keine Historie. Wer etwas Grundlegendes ändert, legt ein neues ADR an, statt
+ein bestehendes zu überschreiben.
+
 ## Marke, Farben, Maskottchen
 
 Alles Gestalterische steht in [`docs/markenleitfaden.md`](docs/markenleitfaden.md).
