@@ -175,6 +175,21 @@ Die Schreibweisen „Wölfe"/„Woelfe" und „Großefehn"/„Grossefehn" kommen
 absichtlich beide im Seitentext vor, in ganzen Sätzen statt als Stichwortliste.
 `inhalte.test.ts` hält fest, dass sie beim Umformulieren nicht verloren gehen.
 
+## Weitere Dokumente
+
+| Datei | Inhalt |
+|---|---|
+| [`docs/infrastruktur.md`](docs/infrastruktur.md) | Was läuft wo, wen fragen – für Nachfolger. Nur öffentlich abfragbare Angaben, keine Zugangsdaten |
+| [`docs/dns-und-mail.md`](docs/dns-und-mail.md) | DNS-Zone, Mail-Authentifizierung, Umzugsgeschichte |
+| [`docs/markenleitfaden.md`](docs/markenleitfaden.md) | Farben, Maskottchen, Regeln für Bild- und Textgenerierung |
+| [`SECURITY.md`](SECURITY.md) | Meldeweg für Sicherheitsprobleme, getroffene Maßnahmen |
+
+### Repo-Banner
+
+`npm run banner` erzeugt `docs/social-preview.png` im Stil der übrigen
+ftrauernicht-Repos. GitHub bietet dafür keine API – die Datei wird von Hand
+unter **Settings → General → Social preview** gesetzt.
+
 ## Markenleitfaden
 
 [`docs/markenleitfaden.md`](docs/markenleitfaden.md) ist das Nachschlagewerk
