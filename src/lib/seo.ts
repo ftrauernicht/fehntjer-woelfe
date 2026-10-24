@@ -22,7 +22,9 @@ export type PageMetadataInput = {
 };
 
 const OG_IMAGE = "/opengraph-image";
-const OG_ALT = "Fehntjer Wölfe – F-Jugend des SV Grossefehn";
+// Gleiche Schreibweise wie im Titel – sonst steht im Alternativtext
+// "Grossefehn" und daneben "Großefehn".
+const OG_ALT = site.titleDefault;
 
 /** Vollständiger Titel inklusive Marke – so wie er im <title> landet. */
 export function fullTitle({ title, absoluteTitle }: PageMetadataInput): string {

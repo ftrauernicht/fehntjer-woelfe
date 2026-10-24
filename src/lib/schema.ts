@@ -1,5 +1,5 @@
 import { canonicalUrl } from "@/lib/seo";
-import { site } from "@/content/site";
+import { site, venue } from "@/content/site";
 
 /**
  * Strukturierte Daten (JSON-LD).
@@ -31,13 +31,19 @@ export function sportsTeamSchema(): JsonLd {
       name: site.club,
       alternateName: site.clubUmlaut,
     },
-    areaServed: {
+    // Die Spielstätte steht sichtbar auf der Seite, darf also auch in die
+    // strukturierten Daten. Ohne den sichtbaren Abschnitt wäre das ein
+    // Verstoß gegen Googles Richtlinien.
+    location: {
       "@type": "Place",
+      name: venue.name,
       address: {
         "@type": "PostalAddress",
-        addressLocality: site.locality,
+        streetAddress: venue.street,
+        postalCode: venue.postalCode,
+        addressLocality: venue.city,
         addressRegion: site.region,
-        addressCountry: "DE",
+        addressCountry: venue.country,
       },
     },
   };

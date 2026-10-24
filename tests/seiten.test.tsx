@@ -6,7 +6,7 @@ import ImpressumPage from "@/app/impressum/page";
 import NotFound from "@/app/not-found";
 import Home from "@/app/page";
 import { gallery } from "@/content/gallery";
-import { impressumIsComplete, site } from "@/content/site";
+import { impressumIsComplete, site, venue } from "@/content/site";
 
 describe("Startseite", () => {
   it("hat genau eine Hauptüberschrift", () => {
@@ -31,6 +31,24 @@ describe("Startseite", () => {
       .filter((a) => a.getAttribute("href")?.startsWith("mailto:"));
     expect(links.length).toBeGreaterThan(0);
     expect(links[0]).toHaveAttribute("href", `mailto:${site.email}`);
+  });
+
+  it("nennt die Spielstätte mit vollständiger Anschrift", () => {
+    // Die Anschrift steht in einem <address> mit <br>-Umbrüchen, die Textknoten
+    // sind also zerstückelt. Deshalb gegen den Elementinhalt prüfen.
+    const { container } = render(<Home />);
+    const anschrift = container.querySelector("address")!;
+    const text = anschrift.textContent ?? "";
+    for (const teil of [venue.name, venue.street, venue.postalCode, venue.city]) {
+      expect(text, teil).toContain(teil);
+    }
+  });
+
+  it("verlinkt die Karte sicher in einem neuen Tab", () => {
+    render(<Home />);
+    const link = screen.getByRole("link", { name: /karte/i });
+    expect(link).toHaveAttribute("href", venue.mapUrl);
+    expect(link.getAttribute("rel")).toContain("noopener");
   });
 
   it("führt zur Bilderseite", () => {

@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import sitemap, { noindexRoutes } from "@/app/sitemap";
 import { gallery, galleryImagePath, galleryTeaser } from "@/content/gallery";
-import { home, impressum, legalNav, site } from "@/content/site";
+import { home, impressum, legalNav, site, venue } from "@/content/site";
 import { sportsTeamSchema, webSiteSchema } from "@/lib/schema";
 
 describe("Stammdaten", () => {
@@ -87,6 +87,34 @@ describe("Schreibvarianten", () => {
   it("nennt den Verein in Titel und Description", () => {
     expect(site.titleDefault).toMatch(/Gro(ß|ss)efehn/);
     expect(site.description).toMatch(/Gro(ß|ss)efehn/);
+  });
+});
+
+describe("Spielstätte", () => {
+  it("ist vollständig angegeben", () => {
+    for (const [feld, wert] of Object.entries(venue)) {
+      expect(wert, feld).toBeTruthy();
+    }
+    expect(venue.postalCode).toMatch(/^\d{5}$/);
+  });
+
+  it("verlinkt eine Karte über HTTPS", () => {
+    const url = new URL(venue.mapUrl);
+    expect(url.protocol).toBe("https:");
+    // Die Karte sucht nach der Anschrift, nicht nach Koordinaten.
+    expect(decodeURIComponent(url.search)).toContain(venue.street);
+  });
+
+  it("steht in den strukturierten Daten genau so wie auf der Seite", () => {
+    // Strukturierte Daten dürfen nichts behaupten, was nicht sichtbar ist.
+    const ort = sportsTeamSchema().location as {
+      name: string;
+      address: Record<string, string>;
+    };
+    expect(ort.name).toBe(venue.name);
+    expect(ort.address.streetAddress).toBe(venue.street);
+    expect(ort.address.postalCode).toBe(venue.postalCode);
+    expect(ort.address.addressLocality).toBe(venue.city);
   });
 });
 

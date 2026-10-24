@@ -179,6 +179,13 @@ export const home = {
     text: "Die Fehntjer Wölfe sind eine Nachwuchsmannschaft des Sportvereins Grossefehn. Alles rund um den Gesamtverein läuft über den Verein selbst – hier geht es nur um unsere Mannschaft.",
   },
 
+  anfahrt: {
+    title: "Wo wir spielen",
+    text: "Unsere Heimspiele und das Training finden auf der Sportanlage Mühlenstadion in Großefehn statt.",
+    hint: "Trainingszeiten und Spieltermine laufen über die Mannschafts-App. Wer neu dazukommen möchte, schreibt uns am besten eine E-Mail.",
+    mapLabel: "Auf der Karte ansehen",
+  },
+
   instagramCta: "Auf Instagram vorbeischauen",
   mailCta: "Schreib uns eine E-Mail",
   mailHint: "Fragen zum Training, zum Probetraining oder zum Verein?",
@@ -204,6 +211,24 @@ export const logos = {
     height: 256,
     alt: "Vereinswappen des SV Grossefehn e.V.",
   },
+} as const;
+
+/**
+ * Die Spielstätte.
+ *
+ * Angaben vom Verein selbst (sv-grossefehn.de) und vom DFB-Portal
+ * fussball.de bestätigt. Nicht geraten – eine falsche Adresse schickt Eltern
+ * zur falschen Anlage.
+ */
+export const venue = {
+  name: "Sportanlage Mühlenstadion",
+  street: "Voßkuhler Straße 3",
+  postalCode: "26629",
+  city: "Großefehn",
+  country: "DE",
+  /** Karte über die Adresse, nicht über Koordinaten – robuster gegen Tippfehler. */
+  mapUrl:
+    "https://www.openstreetmap.org/search?query=Vo%C3%9Fkuhler%20Stra%C3%9Fe%203%2C%2026629%20Gro%C3%9Fefehn",
 } as const;
 
 export const legalNav = [

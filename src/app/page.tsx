@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { galleryImagePath, galleryTeaser } from "@/content/gallery";
-import { home, logos, site } from "@/content/site";
+import { home, logos, site, venue } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -115,6 +115,38 @@ export default function Home() {
             <span className="font-bold">{home.club.title}</span>
             <br />
             <span className="text-muted">{home.club.text}</span>
+          </p>
+        </section>
+
+        {/* Anfahrt - echter Ortsbezug, hilft auch bei der lokalen Suche */}
+        <section className="mt-16 border-t border-border pt-10">
+          <h2 className="text-2xl font-bold tracking-tight">
+            {home.anfahrt.title}
+          </h2>
+          <p className="mt-4 max-w-prose leading-relaxed text-muted text-pretty">
+            {home.anfahrt.text}
+          </p>
+
+          <address className="mt-5 not-italic leading-relaxed">
+            <span className="font-semibold">{venue.name}</span>
+            <br />
+            {venue.street}
+            <br />
+            {venue.postalCode} {venue.city}
+          </address>
+
+          <a
+            href={venue.mapUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex min-h-11 items-center font-semibold text-brand-red underline underline-offset-4 hover:text-brand-red-dark"
+          >
+            {home.anfahrt.mapLabel}
+            <span className="sr-only"> (öffnet eine Karte in neuem Tab)</span>
+          </a>
+
+          <p className="mt-5 max-w-prose text-sm leading-relaxed text-muted text-pretty">
+            {home.anfahrt.hint}
           </p>
         </section>
 
