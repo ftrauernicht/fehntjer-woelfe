@@ -38,12 +38,12 @@ export default function ImpressumPage() {
       </h2>
       <address className="mt-3 not-italic leading-relaxed text-muted">
         {impressum.name}
-        <br />
-        {impressum.street}
-        <br />
-        {impressum.city}
-        <br />
-        {impressum.country}
+        {impressum.addressLines.map((zeile) => (
+          <span key={zeile}>
+            <br />
+            {zeile}
+          </span>
+        ))}
       </address>
 
       <h2 className="mt-8 text-lg font-semibold">Kontakt</h2>

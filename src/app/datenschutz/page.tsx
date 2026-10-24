@@ -30,10 +30,12 @@ export default function DatenschutzPage() {
       <h2 className="mt-10 text-lg font-semibold">Verantwortlicher</h2>
       <address className="mt-3 not-italic leading-relaxed text-muted">
         {impressum.name}
-        <br />
-        {impressum.street}
-        <br />
-        {impressum.city}
+        {impressum.addressLines.map((zeile) => (
+          <span key={zeile}>
+            <br />
+            {zeile}
+          </span>
+        ))}
         <br />
         E-Mail:{" "}
         <a

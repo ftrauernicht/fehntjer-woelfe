@@ -52,16 +52,24 @@ export const PLACEHOLDER = "AUSFUELLEN";
  */
 export const impressum = {
   name: "Frank Trauernicht",
-  street: `${PLACEHOLDER}: Straße und Hausnummer`,
-  city: `${PLACEHOLDER}: PLZ und Ort`,
-  country: "Deutschland",
+  /**
+   * Anschrift ohne Straße – bewusste Entscheidung des Betreibers.
+   *
+   * Hinweis für alle, die das später anfassen: § 5 DDG verlangt eine
+   * ladungsfähige Anschrift, wozu nach herrschender Auffassung die Straße
+   * gehört. Die Angabe wurde hier absichtlich weggelassen. Wer sie ergänzen
+   * will, trägt sie einfach als weitere Zeile in `addressLines` ein.
+   */
+  addressLines: ["26629 Großefehn", "Deutschland"],
   email: "mail@fehntjer-woelfe.de",
 } as const;
 
 /** true, sobald kein Platzhalter mehr im Impressum steht. */
-export const impressumIsComplete = !Object.values(impressum).some((value) =>
-  value.includes(PLACEHOLDER),
-);
+export const impressumIsComplete = ![
+  impressum.name,
+  ...impressum.addressLines,
+  impressum.email,
+].some((value) => value.includes(PLACEHOLDER));
 
 /* -------------------------------------------------------------------------- */
 /*  Stammdaten                                                                 */
@@ -151,7 +159,11 @@ export const home = {
    */
   title: "Fehntjer Wölfe",
   lead: `Die ${ageGroup}-Nachwuchsfußballmannschaft des SV Großefehn.`,
-  text: "Moin! Wir sind die Fehntjer Wölfe, eine Nachwuchsmannschaft des SV Großefehn in Ostfriesland. An unserer Website wird gerade gebaut – auf Instagram sind wir aber längst unterwegs.",
+  /**
+   * Nennt den Verein bewusst nicht noch einmal: er steht schon im Eyebrow
+   * direkt darüber und im Lead. Dreimal hintereinander liest sich schlecht.
+   */
+  text: "Moin! Wir sind die Fehntjer Wölfe aus Ostfriesland. An unserer Website wird gerade gebaut – auf Instagram sind wir aber längst unterwegs.",
 
   /**
    * Bewusst knapp. Frühere Fassungen behaupteten Dinge, die nicht für jedes

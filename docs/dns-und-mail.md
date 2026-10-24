@@ -96,11 +96,14 @@ Erst damit gibt die Seite Canonicals, Sitemap und robots.txt auf die echte
 Domain aus – und erst damit erlaubt sie überhaupt die Indexierung. Nach dem
 Setzen einmal neu deployen.
 
-### Schritt 5 – Impressum vervollständigen
+### Schritt 5 – Impressum
 
-Solange in `src/content/site.ts` noch `AUSFUELLEN` steht, bleibt die Seite auf
-noindex, auch wenn die Domain stimmt. Das ist eine eingebaute Sicherung, keine
-Panne: Straße und Ort eintragen, dann greift die Freigabe.
+Erledigt: In `src/content/site.ts` stehen Name und Ort, keine Platzhalter mehr.
+Die zweite Bedingung der Indexierungssperre ist damit erfüllt, es fehlt nur
+noch `NEXT_PUBLIC_SITE_URL` aus Schritt 4.
+
+Die Anschrift enthält bewusst keine Straße. Falls das später anders gesehen
+wird: eine Zeile in `impressum.addressLines` ergänzen, mehr ist es nicht.
 
 ## Prüfen, ob es geklappt hat
 
@@ -119,8 +122,8 @@ curl -s https://fehntjer-woelfe.de/robots.txt
 ```
 
 Die letzte Zeile muss `Allow: /` enthalten und auf die Sitemap zeigen. Steht
-dort `Disallow: /`, fehlt entweder `NEXT_PUBLIC_SITE_URL` oder das Impressum
-ist noch unvollständig.
+dort `Disallow: /`, fehlt `NEXT_PUBLIC_SITE_URL` – lokal mit gesetzter Variable
+getestet und bestätigt.
 
 DNS-Änderungen bei Strato brauchen erfahrungsgemäß bis zu 24 Stunden, bis sie
 überall sichtbar sind.

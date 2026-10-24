@@ -71,7 +71,8 @@ Vier Entscheidungen, die man nicht aus dem Code allein ablesen kann.
    `*.vercel.app`-Adresse indexiert und später als Duplikat gegen die echte
    Domain antreten.
 2. Das Impressum enthält keine Platzhalter mehr – eine indexierte Seite ohne
-   vollständige Anbieterkennzeichnung ist nach § 5 DDG angreifbar.
+   Anbieterkennzeichnung ist nach § 5 DDG angreifbar. Diese Bedingung ist
+   inzwischen erfüllt; es fehlt nur noch die Domain.
 
 Das ist eine Sicherung, keine Schikane: beide Fehler sind teuer und fallen
 sonst erst auf, wenn es zu spät ist. Was zu tun ist, steht in
@@ -187,7 +188,10 @@ Wer ein neues Logo, Motiv oder Motto erzeugen lässt, liest das vorher.
 ## Rechtliches
 
 - **Impressum:** privat betriebene Seite, Verantwortlicher siehe
-  `src/content/site.ts`. Straße und Ort sind noch einzutragen.
+  `src/content/site.ts`. Die Anschrift enthält bewusst **keine Straße** –
+  Entscheidung des Betreibers. § 5 DDG verlangt eine ladungsfähige Anschrift,
+  wozu nach herrschender Auffassung die Straße zählt; wer das ändern will,
+  ergänzt eine Zeile in `impressum.addressLines`.
 - **Vereinswappen:** Das Wappen des SV Grossefehn e.V. ist eine fremde Marke.
   Die Verwendung auf einer privaten Mannschaftsseite ist üblich, sollte aber
   einmal mit dem Verein abgestimmt werden.
