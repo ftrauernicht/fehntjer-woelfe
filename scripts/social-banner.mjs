@@ -35,7 +35,7 @@
  */
 
 import { Resvg } from "@resvg/resvg-js";
-import { mkdir, readFile, writeFile, access } from "node:fs/promises";
+import { mkdir, writeFile, access } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 

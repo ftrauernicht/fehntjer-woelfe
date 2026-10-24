@@ -226,7 +226,13 @@ Was aufgetreten ist:
 
 ### Drei Kniffe, die gegen diese Fehler helfen
 
-Erprobt, nicht vermutet – jeder hat einen konkreten Fehler behoben:
+Erprobt, nicht vermutet – jeder hat einen konkreten Fehler behoben.
+
+**Denselben Prompt neu zu würfeln hilft meistens nicht, es tauscht den Fehler
+nur aus.** Bei einem Motiv fehlte im ersten Lauf ein Arm, im zweiten waren die
+Augen braun, im dritten fehlte der Arm am anderen Wolf. Erst der präzisere
+Prompt saß. Vier Bildläufe für ein Motiv sind ein Zeichen dafür, dass die
+Szenenzeile ungenau ist – nicht dafür, dass man Pech hat.
 
 | Fehler | Was hilft |
 |---|---|
