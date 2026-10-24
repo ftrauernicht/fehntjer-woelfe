@@ -87,6 +87,10 @@ die Google ohnehin per Mail meldet – rechtfertigt das Geheimnis nicht.
 - Automatisch zusammengeführte Updates gehen ohne menschlichen Blick live.
   Vercel baut jeden Push; schlägt der Build fehl, bleibt die letzte
   funktionierende Fassung online.
+- Das Repository löscht Zweige nach dem Zusammenführen selbst
+  (`delete_branch_on_merge`). Der Workflow verzichtet deshalb auf einen
+  eigenen Löschbefehl: ein fehlgeschlagener Löschversuch würde den Lauf rot
+  machen und eine Mail über ein Nichtproblem schicken.
 - Der Wachhund braucht kein Geheimnis und keinen Zugang. Er prüft nur, was
   jeder von außen prüfen könnte – passend zur Grenze aus
   [ADR 0008](0008-dokumentationsgrenze.md).

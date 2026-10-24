@@ -70,4 +70,8 @@ jobs:
           fi
 
           echo "Führe #$nummer zusammen ($ZWEIG)."
-          gh pr merge "$nummer" --repo "$REPO" --squash --delete-branch
+          # Ohne --delete-branch: das Repository löscht Zweige nach dem
+          # Zusammenführen selbst. Ein fehlgeschlagener Löschversuch würde
+          # diesen Lauf rot machen und eine Mail über ein Nichtproblem
+          # schicken.
+          gh pr merge "$nummer" --repo "$REPO" --squash
