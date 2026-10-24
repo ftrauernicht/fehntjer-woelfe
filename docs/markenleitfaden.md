@@ -202,7 +202,15 @@ nicht.
 
 ### Prüfpflicht
 
-**Jedes generierte Bild wird vor der Veröffentlichung einzeln angesehen.**
+**Jedes generierte Bild wird vor der Veröffentlichung einzeln und
+vergrößert angesehen.**
+
+Das Wort *vergrößert* steht hier, weil es einmal gefehlt hat: Ein Wolf hatte
+nur einen Arm – der zweite endete an der Schulter. Auf einem Kontaktbogen mit
+900 Pixel Kachelbreite war das nicht zu sehen, und das Bild ging so online.
+Prüfen heißt: jede Figur so groß, dass man **Arme, Pfoten, Ohren, Schwänze und
+Finger zählen kann**. Ein Kontaktbogen taugt für die Auswahl, nicht für die
+Abnahme.
 Die Quote ist kein Zufall: Bei einem Durchlauf von fünfzehn Motiven waren vier
 unbrauchbar, bei einem späteren von zehn immerhin noch drei.
 
@@ -212,6 +220,23 @@ Was aufgetreten ist:
 - Bilder mit **braunen statt blauen** Augen
 - ein Wappen, das zu einem Schild mit Blumenmuster geworden war
 - **erfundene Stadien** in Szenen, die keines nannten
+- ein **fehlender Arm**, der auf dem Kontaktbogen nicht auffiel
+- **zwei Schwänze** an einer Figur
+- **zwei Bälle**, obwohl die Szene einen nannte
+
+### Drei Kniffe, die gegen diese Fehler helfen
+
+Erprobt, nicht vermutet – jeder hat einen konkreten Fehler behoben:
+
+| Fehler | Was hilft |
+|---|---|
+| Ein Körperteil fehlt | **Benennen, was es tut.** „both standing side by side" lässt die äußeren Arme verschwinden. „the younger wolf rests his free paw flat against his own thigh, the older wolf rests his free paw on his hip" nicht. |
+| Etwas ist doppelt | **Die Anzahl ausschreiben.** „exactly one tail in the whole picture and no second tail near his head", „exactly one football, none lying on the grass". |
+| Ein Merkmal driftet trotz Steckbrief | **In die Szenenzeile ziehen.** Die Augenfarbe stand im NEGATIVE-Block und kippte trotzdem auf Braun. Erst in der Szene formuliert – „the older wolf's irises are sky-blue too, not brown and not grey" – hielt sie. |
+
+Der Steckbrief trägt das Aussehen, die Szenenzeile trägt das, was im **konkreten
+Bild** schiefgehen kann. Wer einen wiederkehrenden Fehler nur im Steckbrief
+bekämpft, kämpft an der falschen Stelle.
 
 Weitere typische Fehler: drei Ohren, zwei Schwänze, zwei identische Wölfe,
 Textfetzen im Hintergrund, abgeschnittene Füße.
