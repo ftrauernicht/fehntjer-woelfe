@@ -150,20 +150,19 @@ export const home = {
    * unter dem man gefunden werden will.
    */
   title: "Fehntjer Wölfe",
-  lead: `Nachwuchsfußball beim SV Großefehn – zurzeit in der ${ageGroup}.`,
+  lead: `Die ${ageGroup}-Nachwuchsfußballmannschaft des SV Großefehn.`,
   text: "Moin! Wir sind die Fehntjer Wölfe, eine Nachwuchsmannschaft des SV Großefehn in Ostfriesland. An unserer Website wird gerade gebaut – auf Instagram sind wir aber längst unterwegs.",
 
   /**
-   * Kurzer Absatz mit echtem Inhalt. Er nennt beide Schreibweisen des Namens
-   * in einem Satz, der sich auch vorlesen lässt – das ist der Unterschied
-   * zwischen Kontext und Stichwortliste.
+   * Bewusst knapp. Frühere Fassungen behaupteten Dinge, die nicht für jedes
+   * Kind und nicht für jede Saison stimmen – Kleinfeld, Aufrücken in die
+   * E-Jugend, „jüngste Mannschaft". Alles raus. Hier steht nur, was dauerhaft
+   * zutrifft.
    */
   about: {
     title: "Wer wir sind",
     paragraphs: [
-      `Die Fehntjer Wölfe spielen beim SV Grossefehn e.V., zurzeit in der ${ageGroup}. Gespielt wird auf dem Kleinfeld: kurze Wege, kleine Tore, viele Ballkontakte.`,
-      "Ein Jahrgang bleibt nicht stehen – wer heute in der F-Jugend spielt, läuft im nächsten Jahr in der E-Jugend auf. Die Wölfe bleiben dieselben, die Altersklasse wandert mit.",
-      "Geschrieben wird der Name mal „Fehntjer Wölfe“ mit Umlaut, mal „Fehntjer Woelfe“ – so wie in unserer Adresse fehntjer-woelfe.de. Gemeint ist beides Mal dieselbe Mannschaft. Beim Verein ist es genauso: auf dem Wappen steht „SV Grossefehn“, auf der Landkarte „Großefehn“.",
+      "Die Fehntjer Wölfe spielen beim SV Grossefehn e.V. in Ostfriesland. Was ansteht – Training, Spieltage, alles andere – teilen wir über Instagram und irgendwann auch hier.",
     ],
   },
 

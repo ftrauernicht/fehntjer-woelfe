@@ -39,13 +39,6 @@ describe("Startseite", () => {
       screen.getByRole("link", { name: /alle bilder ansehen/i }),
     ).toHaveAttribute("href", "/bilder");
   });
-
-  it("nennt die richtige Anzahl Bilder", () => {
-    render(<Home />);
-    expect(
-      screen.getByText(new RegExp(`${gallery.length} Bilder`)),
-    ).toBeInTheDocument();
-  });
 });
 
 describe("Bilderseite", () => {

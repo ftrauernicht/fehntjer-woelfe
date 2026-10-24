@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { gallery, galleryImagePath, galleryTeaser } from "@/content/gallery";
+import { galleryImagePath, galleryTeaser } from "@/content/gallery";
 import { home, logos, site } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -121,8 +121,8 @@ export default function Home() {
         <section className="mt-16 border-t border-border pt-10">
           <h2 className="text-2xl font-bold tracking-tight">Unsere Wölfe</h2>
           <p className="mt-2 max-w-prose text-muted text-pretty">
-            Bis die richtige Seite steht, gibt es schon mal {gallery.length}{" "}
-            Bilder unserer beiden Maskottchen.
+            Bis die richtige Seite steht, gibt es schon mal ein paar Bilder
+            unserer beiden Maskottchen.
           </p>
 
           <Link

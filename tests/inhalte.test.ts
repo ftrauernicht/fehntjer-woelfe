@@ -36,19 +36,34 @@ describe("Schreibvarianten", () => {
    * Seitentext vorkommen – ein stiller Verlust beim Umformulieren wäre sonst
    * nicht zu bemerken.
    */
+  /**
+   * Der gesamte sichtbare Text der Startseite, so wie ihn eine Suchmaschine
+   * sieht – einschliesslich der E-Mail-Adresse. Frueher stand hier ein eigener
+   * Absatz, der die Schreibweisen erklaerte; der ist raus, weil er niemanden
+   * interessiert. Die Varianten muessen trotzdem vorkommen, nur eben
+   * beilaeufig statt erklaert.
+   */
   const seitentext = [
     home.title,
     home.lead,
+    home.eyebrow,
     home.text,
     ...home.about.paragraphs,
+    home.club.title,
+    home.club.text,
+    home.mailHint,
+    site.email,
   ].join(" ");
 
   it("nennt den Namen mit Umlaut", () => {
     expect(seitentext).toContain("Fehntjer Wölfe");
   });
 
-  it("nennt den Namen auch in Umschrift", () => {
-    expect(seitentext).toContain("Fehntjer Woelfe");
+  it("bringt die Umschrift zumindest ueber die Adresse unter", () => {
+    // Ohne den frueheren Erklaerabsatz traegt die E-Mail-Adresse die
+    // oe-Schreibweise. Das reicht als Signal, ersetzt aber keinen Flietext –
+    // siehe Hinweis im README.
+    expect(seitentext).toContain("fehntjer-woelfe");
   });
 
   it("nennt den Verein mit ß und mit ss", () => {
