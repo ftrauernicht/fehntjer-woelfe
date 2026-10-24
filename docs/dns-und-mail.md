@@ -26,6 +26,50 @@ Zwei Dinge fallen auf:
 2. **Es fehlt ein SPF-Eintrag.** Ohne SPF landen ausgehende Mails von
    `mail@fehntjer-woelfe.de` häufiger im Spam-Ordner.
 
+## Der AAAA-Eintrag – ungelöst
+
+**Stand 24.10.2026: Die Hauptdomain ist über HTTPS noch nicht erreichbar.**
+`www.fehntjer-woelfe.de` funktioniert bereits.
+
+Ursache: Auf `fehntjer-woelfe.de` liegt ein AAAA-Eintrag auf Stratos eigene
+IPv6-Adresse. Vercel meldet ihn als Konflikt und stellt deshalb kein
+Zertifikat aus. Besucher über IPv6 – in Deutschland die Mehrheit – landen
+weiterhin bei Strato.
+
+Was geprüft und **verworfen** wurde:
+
+| Weg | Warum nicht |
+|---|---|
+| AAAA bei Strato löschen | Die Oberfläche sieht kein Löschen vor, nur „STRATO Standard" oder „eigene IP". Stratos eigener FAQ-Artikel 539 kennt ebenfalls nur das Setzen. |
+| AAAA auf eine Vercel-IPv6 zeigen | Vercel hat keine. Weder `cname.vercel-dns.com` noch das projekteigene CNAME-Ziel führen einen AAAA-Eintrag. |
+| Nameserver zu Vercel umziehen | Strato blendet dazu ein: **„Bei der Verwendung eigener Nameserver stehen STRATO E-Mail-Funktionen für diese Domain nicht zur Verfügung."** Das würde das Vereinspostfach abschalten. |
+| `www` als kanonische Adresse | Technisch möglich, aber die Hauptdomain zeigt IPv6-Besuchern weiter die Parkseite. |
+
+**Nächster Schritt:** Strato-Support bitten, den AAAA-Record für
+`fehntjer-woelfe.de` ersatzlos zu löschen. Formulierungsvorschlag:
+
+> Bitte löschen Sie den AAAA-Record für die Domain fehntjer-woelfe.de
+> ersatzlos. Die Domain wird extern betrieben; der Anbieter unterstützt kein
+> IPv6, und der vorhandene Eintrag verhindert die Ausstellung des
+> SSL-Zertifikats. Der MX-Eintrag soll unverändert bleiben.
+
+### Falls doch einmal die Nameserver umziehen
+
+Dann müssen diese Einträge beim neuen Anbieter nachgebaut werden – mehr sind
+es nicht:
+
+```
+MX     @           smtpin.rzone.de          Priorität 5
+TXT    @           v=spf1 redirect=_spf.strato.com
+TXT    _dmarc      v=DMARC1;p=reject;
+CNAME  autoconfig  autoconfigure.strato.de
+```
+
+In der Vercel-Zone liegen vier dieser Einträge bereits angelegt. Sie sind
+**wirkungslos**, solange Strato autoritativ ist – sie stammen aus einem
+Versuch, der am Mail-Hinweis oben gescheitert ist. Wer sie stört, kann sie in
+Vercel unter DNS löschen.
+
 ## Entscheidung: DNS bleibt bei Strato
 
 Vercel kann die Nameserver übernehmen. **Machen wir nicht.**
@@ -77,16 +121,39 @@ Drei Dinge, an denen es sonst scheitert:
 3. **Den MX nicht anfassen.** Sonst kommt keine Post mehr an
    `mail@fehntjer-woelfe.de` an.
 
-### Schritt 3 – SPF eintragen
+### Schritt 3 – SPF
 
-Den genauen `include:`-Wert gibt Strato im Kundenbereich vor. Er konnte am
-24.10.2026 **nicht** aus öffentlicher Dokumentation bestätigt werden, deshalb
-steht hier bewusst kein geratener Wert.
+**Erledigt am 24.10.2026** – und es war dringender als gedacht.
 
-Vorgehen: Im Strato-Kundenbereich unter **E-Mail → Einstellungen** nach
-„SPF" suchen. Strato bietet dort meist eine Schaltfläche, die den passenden
-Eintrag selbst setzt. Nur falls es die nicht gibt, den von Strato genannten
-Wert als TXT-Eintrag auf `@` eintragen.
+Vorgefunden wurde eine gefährliche Kombination: DMARC stand auf
+`v=DMARC1;p=reject;` – der schärfsten Stufe –, **ohne dass ein SPF-Eintrag
+existierte** und ohne auffindbares DKIM. `p=reject` weist empfangende Server
+an, nicht authentifizierte Mails abzulehnen. Ohne SPF und DKIM betrifft das
+jede Mail von `mail@fehntjer-woelfe.de`.
+
+Behoben über die Strato-Oberfläche: **Domainverwaltung → DNS → TXT- und
+CNAME-Records → STRATO SPF-Regel → „Standard STRATO Mailserver"**. Strato
+setzt daraufhin:
+
+```
+fehntjer-woelfe.de   TXT   v=spf1 redirect=_spf.strato.com
+```
+
+Die Kette löst vollständig auf (geprüft):
+
+```
+_spf.strato.com → ip4:81.169.146.128/25 ip4:85.215.255.0/24
+                  ip6:2a01:238:20a:202::0/64 ip6:2a01:238:400::0/48
+                  ip4:81.169.144.153 ip6:2a01:238:20a:202:50ff::153 -all
+```
+
+Die beiden anderen Optionen („FAIL"/„SOFTFAIL – Mailserver laut MX") wären
+falsch gewesen: Der MX (`smtpin.rzone.de`) ist der *Eingangs*server, Mails
+gehen über andere Systeme raus.
+
+**Offen:** DKIM. Unter den üblichen Selektoren war keiner zu finden. Mit
+`p=reject` sollte auch DKIM aktiviert werden – im Strato-Kundenbereich unter
+E-Mail. Danach prüfen, ob dort ein `_domainkey`-Eintrag erscheint.
 
 **Wichtig:** Es darf nur *einen* SPF-Eintrag pro Domain geben. Ein zweiter
 macht beide ungültig.
