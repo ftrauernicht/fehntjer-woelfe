@@ -55,10 +55,16 @@ jobs:
         # abgebrochener Bildlauf hat schon einmal ein Wappen aus dem
         # Repository entfernt, ohne dass es jemandem auffiel.
         run: |
-          for f in             public/logo/woelfe-wappen.webp             public/logo/svg-vereinswappen.webp             assets/woelfe-wappen-og.png             src/app/icon.png             src/app/apple-icon.png
-          do
-            test -f "$f" || { echo "fehlt: $f"; exit 1; }
-          done
+          fehlt=0
+          pruefe() {
+            if [ ! -f "$1" ]; then echo "fehlt: $1"; fehlt=1; fi
+          }
+          pruefe public/logo/woelfe-wappen.webp
+          pruefe public/logo/svg-vereinswappen.webp
+          pruefe assets/woelfe-wappen-og.png
+          pruefe src/app/icon.png
+          pruefe src/app/apple-icon.png
+          exit $fehlt
 
   audit:
     name: Abhängigkeiten auf Schwachstellen prüfen
