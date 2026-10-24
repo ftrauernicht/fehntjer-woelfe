@@ -53,14 +53,10 @@ export const PLACEHOLDER = "AUSFUELLEN";
 export const impressum = {
   name: "Frank Trauernicht",
   /**
-   * Anschrift ohne Straße – bewusste Entscheidung des Betreibers.
-   *
-   * Hinweis für alle, die das später anfassen: § 5 DDG verlangt eine
-   * ladungsfähige Anschrift, wozu nach herrschender Auffassung die Straße
-   * gehört. Die Angabe wurde hier absichtlich weggelassen. Wer sie ergänzen
-   * will, trägt sie einfach als weitere Zeile in `addressLines` ein.
+   * Ladungsfähige Anschrift nach § 5 DDG – vollständig mit Straße.
+   * Die Zeilen werden in dieser Reihenfolge untereinander ausgegeben.
    */
-  addressLines: ["26629 Großefehn", "Deutschland"],
+  addressLines: ["Süderwieke Nord 20", "26629 Großefehn", "Deutschland"],
   email: "mail@fehntjer-woelfe.de",
 } as const;
 

@@ -45,30 +45,35 @@ ist, hält sie sich selbst aus dem Suchindex (siehe `src/app/robots.ts`).
 
 ### Schritt 1 – Domain in Vercel eintragen
 
-Im Vercel-Projekt unter **Settings → Domains** `fehntjer-woelfe.de` **und**
-`www.fehntjer-woelfe.de` hinzufügen. Vercel zeigt daraufhin die konkreten
-DNS-Werte an.
-
-> **Die IP-Adresse nicht aus dieser Datei abschreiben.** Vercel vergibt
-> unterschiedliche Adressen je Projekt und ändert sie gelegentlich. Es gilt
-> ausschließlich der Wert, den das Vercel-Dashboard für *dieses* Projekt
-> anzeigt. Ältere Anleitungen nennen `76.76.21.21`, neuere andere Werte –
-> beides kann für dieses Projekt falsch sein.
+**Erledigt am 24.10.2026.** `fehntjer-woelfe.de` und `www.fehntjer-woelfe.de`
+sind dem Projekt zugeordnet.
 
 ### Schritt 2 – Einträge bei Strato setzen
 
+Die folgenden Werte sind am 24.10.2026 mit `vercel domains verify` aus **diesem
+Projekt** ausgelesen. Sie gelten nicht allgemein für Vercel – ältere Anleitungen
+nennen andere Adressen.
+
 Im Strato-Kundenbereich unter **Domainverwaltung → DNS-Einstellungen**:
 
-| Typ | Name | Wert | Hinweis |
+| Typ | Name | Wert | Aktion |
 |---|---|---|---|
-| A | `@` | *(IP aus dem Vercel-Dashboard)* | ersetzt `217.160.0.41` |
-| CNAME | `www` | `cname.vercel-dns.com` | oder der von Vercel genannte Wert |
-| MX | `@` | `smtpin.rzone.de`, Priorität 10 | **unverändert lassen** |
-| TXT | `@` | `v=spf1 ...` | siehe unten |
+| A | `@` | `216.198.79.1` | ersetzt `217.160.0.41` |
+| A | `@` | `64.29.17.1` | **zweiter** A-Eintrag, zusätzlich |
+| CNAME | `www` | `41a9139b0b1649f1.vercel-dns-017.com.` | ersetzt den bisherigen Eintrag |
+| AAAA | `@` | `2001:8d8:100f:f000::200` | **löschen** |
+| AAAA | `www` | `2001:8d8:100f:f000::200` | **löschen** |
+| MX | `@` | `smtpin.rzone.de` | **unverändert lassen** |
 
-**Alle vorhandenen AAAA-Einträge auf `@` löschen.** Vercel unterstützt bei
-fremdem DNS kein IPv6; ein übriggebliebener AAAA-Eintrag führt zu sporadisch
-nicht erreichbaren Seiten, die schwer zu diagnostizieren sind.
+Drei Dinge, an denen es sonst scheitert:
+
+1. **Beide A-Einträge setzen.** Vercel nennt zwei Adressen; mit nur einer
+   funktioniert es, aber ohne Ausfallsicherheit.
+2. **Die AAAA-Einträge wirklich löschen.** Vercel unterstützt bei fremdem DNS
+   kein IPv6. Bleibt ein AAAA stehen, erreichen Besucher mit IPv6 weiterhin die
+   alte Strato-Seite – sporadisch und schwer zu diagnostizieren.
+3. **Den MX nicht anfassen.** Sonst kommt keine Post mehr an
+   `mail@fehntjer-woelfe.de` an.
 
 ### Schritt 3 – SPF eintragen
 
@@ -86,6 +91,11 @@ macht beide ungültig.
 
 ### Schritt 4 – Umgebungsvariable setzen
 
+**Erst wenn die Domain tatsächlich auf Vercel zeigt.** Vorher richtet diese
+Variable Schaden an: sie gibt die Indexierung frei und setzt alle Canonicals
+auf `fehntjer-woelfe.de`. Zeigt die Domain zu diesem Zeitpunkt noch auf die
+Strato-Parkseite, verweist die ausgelieferte Seite auf fremden Inhalt.
+
 In Vercel unter **Settings → Environment Variables**:
 
 ```
@@ -102,8 +112,7 @@ Erledigt: In `src/content/site.ts` stehen Name und Ort, keine Platzhalter mehr.
 Die zweite Bedingung der Indexierungssperre ist damit erfüllt, es fehlt nur
 noch `NEXT_PUBLIC_SITE_URL` aus Schritt 4.
 
-Die Anschrift enthält bewusst keine Straße. Falls das später anders gesehen
-wird: eine Zeile in `impressum.addressLines` ergänzen, mehr ist es nicht.
+Die Anschrift ist vollständig, inklusive Straße.
 
 ## Prüfen, ob es geklappt hat
 

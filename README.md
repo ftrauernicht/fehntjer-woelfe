@@ -187,11 +187,8 @@ Wer ein neues Logo, Motiv oder Motto erzeugen lässt, liest das vorher.
 
 ## Rechtliches
 
-- **Impressum:** privat betriebene Seite, Verantwortlicher siehe
-  `src/content/site.ts`. Die Anschrift enthält bewusst **keine Straße** –
-  Entscheidung des Betreibers. § 5 DDG verlangt eine ladungsfähige Anschrift,
-  wozu nach herrschender Auffassung die Straße zählt; wer das ändern will,
-  ergänzt eine Zeile in `impressum.addressLines`.
+- **Impressum:** privat betriebene Seite, Verantwortlicher und vollständige
+  ladungsfähige Anschrift nach § 5 DDG in `src/content/site.ts`.
 - **Vereinswappen:** Das Wappen des SV Grossefehn e.V. ist eine fremde Marke.
   Die Verwendung auf einer privaten Mannschaftsseite ist üblich, sollte aber
   einmal mit dem Verein abgestimmt werden.
