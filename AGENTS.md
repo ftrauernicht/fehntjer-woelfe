@@ -32,6 +32,14 @@ aus.
    im Verein – unter ihr gibt es noch die G-Jugend. Strukturierte Daten dürfen
    nichts enthalten, was nicht auch sichtbar auf der Seite steht.
 
+## Marke, Farben, Maskottchen
+
+Alles Gestalterische steht in [`docs/markenleitfaden.md`](docs/markenleitfaden.md).
+Dort stehen die **gemessenen** Farbwerte (Vereinsrot `#BF0B02`), beide
+Schreibweisen des Namens, die Beschreibung der zwei Maskottchen und die
+Regeln, an denen schon etwas schiefgegangen ist. Vor jeder Bild-, Logo- oder
+Mottoerzeugung lesen.
+
 ## Bilder
 
 `src/content/gallery.json` ist die gemeinsame Quelle für die Website und für

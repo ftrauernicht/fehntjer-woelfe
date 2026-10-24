@@ -174,6 +174,16 @@ Die Schreibweisen „Wölfe"/„Woelfe" und „Großefehn"/„Grossefehn" kommen
 absichtlich beide im Seitentext vor, in ganzen Sätzen statt als Stichwortliste.
 `inhalte.test.ts` hält fest, dass sie beim Umformulieren nicht verloren gehen.
 
+## Markenleitfaden
+
+[`docs/markenleitfaden.md`](docs/markenleitfaden.md) ist das Nachschlagewerk
+für alles Gestalterische – geschrieben für Menschen **und für KI-Modelle**:
+gemessene Farbwerte, verbindliche Schreibweisen, die festen Beschreibungen
+beider Maskottchen, Regeln für Bildgenerierung, Tonfall und Mottos, dazu eine
+Checkliste vor der Veröffentlichung.
+
+Wer ein neues Logo, Motiv oder Motto erzeugen lässt, liest das vorher.
+
 ## Rechtliches
 
 - **Impressum:** privat betriebene Seite, Verantwortlicher siehe

@@ -34,11 +34,13 @@ const LOGO_TARGET = path.join(REPO, "public", "logo");
  * Die beiden Wappen. Sie liegen im Referenzordner des Bildprojekts und
  * werden hier nur verkleinert und nach WebP gewandelt.
  *
- * `woelfe-wappen` hat einen weissen Hintergrund, `svg-vereinswappen` ist
- * transparent. Beide stehen auf der Seite deshalb auf weissen Flaechen.
+ * `woelfe-wappen` ist die offizielle Druckdatei des Vereins (1254 px, saubere
+ * Typografie) - nicht die aus einem PDF gezogene Fassung. Sie hat einen
+ * weissen Hintergrund, `svg-vereinswappen` ist transparent. Beide stehen auf
+ * der Seite deshalb auf weissen Flaechen.
  */
 const LOGOS = [
-  { file: "referenz/logo/woelfe-wappen.png", slug: "woelfe-wappen", width: 640 },
+  { file: "referenz/offiziell/Fehntjer Wölfe Logo.png", slug: "woelfe-wappen", width: 640 },
   { file: "referenz/logo/svg-vereinswappen.png", slug: "svg-vereinswappen", width: 256 },
 ];
 

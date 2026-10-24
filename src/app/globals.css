@@ -8,10 +8,15 @@
  * sonst laufen Light- und Dark-Mode auseinander.
  */
 @theme {
-  --color-brand-red: #c8102e;
-  --color-brand-red-dark: #9b0c23;
+  /*
+   * Das Rot ist aus dem offiziellen Vereinslogo gemessen, nicht geschaetzt:
+   * Mittelwert ueber 172.186 Pixel der gesaettigten Rotflaeche in
+   * "Fehntjer Wölfe Logo.png" (Druckdatei des Vereins). Ein reines, warmes
+   * Rot - kein Karmesin, kein Blaustich.
+   */
+  --color-brand-red: #bf0b02;
+  --color-brand-red-dark: #8f0801;
   --color-brand-grey: #8a9099;
-  --color-brand-fur: #f2efe9;
   --color-brand-ink: #18181b;
 }
 
