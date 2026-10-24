@@ -9,6 +9,11 @@
  * Aufruf:
  *   node scripts/optimize-images.mjs [quellordner]
  *
+ * **Nicht nach `| head` pipen.** Das Skript loescht die Zielordner und baut
+ * sie neu auf. Schliesst `head` die Pipe, stirbt der Prozess an SIGPIPE
+ * mitten im Lauf und laesst einen halb geloeschten Zustand zurueck. Genau so
+ * ist einmal ein Wappen aus dem Repository verschwunden.
+ *
  * Der Quellordner ist der Ordner, der `ausgabe/` und `stiltest/` enthaelt.
  * Standard ist das Elternverzeichnis dieses Repositories.
  *
@@ -76,6 +81,18 @@ async function main() {
 
   await rm(LOGO_TARGET, { recursive: true, force: true });
   await mkdir(LOGO_TARGET, { recursive: true });
+
+  // Wappen fuer das Open-Graph-Bild. Liegt in assets/, nicht in public/:
+  // Es wird zur Laufzeit mit readFile gelesen, nicht vom Browser geladen.
+  // Next.js verfolgt diesen Pfad beim Bauen und packt die Datei mit ein.
+  await mkdir(path.join(REPO, "assets"), { recursive: true });
+  {
+    const info = await sharp(path.join(SOURCE, LOGOS[0].file))
+      .resize(420, 420, { fit: "contain", background: "#ffffff" })
+      .png()
+      .toFile(path.join(REPO, "assets", "woelfe-wappen-og.png"));
+    console.log(`${"woelfe-wappen-og.png".padEnd(18)} ${info.width}x${info.height}  ${(info.size / 1024).toFixed(0)} KB -> assets/`);
+  }
 
   // Favicon und Apple-Touch-Icon direkt aus dem Wappen. Next.js nimmt
   // `src/app/icon.png` und `src/app/apple-icon.png` automatisch auf.

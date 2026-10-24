@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import sitemap, { noindexRoutes } from "@/app/sitemap";
 import { gallery, galleryImagePath, galleryTeaser } from "@/content/gallery";
-import { home, impressum, legalNav, site, venue } from "@/content/site";
+import { home, impressum, legalNav, logos, site, venue } from "@/content/site";
 import { sportsTeamSchema, webSiteSchema } from "@/lib/schema";
 
 describe("Stammdaten", () => {
@@ -183,6 +183,37 @@ describe("Galerie", () => {
   it("hat einen Teaser", () => {
     expect(galleryTeaser).toBeDefined();
     expect(gallery).toContain(galleryTeaser);
+  });
+});
+
+describe("Wappendateien", () => {
+  /**
+   * Beide Wappen müssen ausgeliefert werden. Einmal fehlte eines im
+   * Deployment, weil das Bildskript mitten im Lauf abgebrochen war und die
+   * Löschung eingecheckt wurde – auf der Seite stand dann nur noch der
+   * Alternativtext.
+   */
+  for (const [schluessel, logo] of Object.entries(logos)) {
+    it(`${schluessel} liegt unter public/`, () => {
+      const datei = path.join(process.cwd(), "public", logo.src);
+      expect(existsSync(datei), logo.src).toBe(true);
+    });
+  }
+
+  it("hat zu jedem Wappen Maße und Alternativtext", () => {
+    for (const [schluessel, logo] of Object.entries(logos)) {
+      expect(logo.width, schluessel).toBeGreaterThan(0);
+      expect(logo.height, schluessel).toBeGreaterThan(0);
+      expect(logo.alt.length, schluessel).toBeGreaterThan(10);
+    }
+  });
+});
+
+describe("Open-Graph-Bild", () => {
+  it("findet das Wappen, das zur Laufzeit eingebettet wird", () => {
+    // Liegt in assets/, nicht in public/ – wird mit readFile gelesen.
+    const datei = path.join(process.cwd(), "assets", "woelfe-wappen-og.png");
+    expect(existsSync(datei)).toBe(true);
   });
 });
 

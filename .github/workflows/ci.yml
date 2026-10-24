@@ -50,12 +50,15 @@ jobs:
         run: npm run build
 
       - name: Bildbestand prüfen
-        # Die Galerie-Einträge und die ausgelieferten Dateien müssen
-        # zusammenpassen; das prüft bereits ein Test, hier wird zusätzlich
-        # sichergestellt, dass überhaupt Bilder eingecheckt sind.
+        # Die Tests prüfen, dass zu jedem Galerie- und Wappeneintrag eine Datei
+        # existiert. Hier zusätzlich die Dateien, die kein Test kennt - ein
+        # abgebrochener Bildlauf hat schon einmal ein Wappen aus dem
+        # Repository entfernt, ohne dass es jemandem auffiel.
         run: |
-          test -d public/bilder || { echo "public/bilder fehlt"; exit 1; }
-          test -d public/logo   || { echo "public/logo fehlt"; exit 1; }
+          for f in             public/logo/woelfe-wappen.webp             public/logo/svg-vereinswappen.webp             assets/woelfe-wappen-og.png             src/app/icon.png             src/app/apple-icon.png
+          do
+            test -f "$f" || { echo "fehlt: $f"; exit 1; }
+          done
 
   audit:
     name: Abhängigkeiten auf Schwachstellen prüfen
