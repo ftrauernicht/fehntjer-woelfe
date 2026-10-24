@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+/**
+ * Farbtokens.
+ *
+ * Rot und Grau sind aus dem vorhandenen Vereinsmaterial abgeleitet (Wappen,
+ * Trikots). Alle Farben einmal hier definieren – nirgends im JSX hartkodieren,
+ * sonst laufen Light- und Dark-Mode auseinander.
+ */
+@theme {
+  --color-brand-red: #c8102e;
+  --color-brand-red-dark: #9b0c23;
+  --color-brand-grey: #8a9099;
+  --color-brand-fur: #f2efe9;
+  --color-brand-ink: #18181b;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #18181b;
+  --muted: #52525b;
+  --surface: #f6f6f7;
+  --border: #e4e4e7;
+}
+
+/* Dunkelmodus folgt dem System, lässt sich aber per data-theme übersteuern. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #0e0e11;
+    --foreground: #fafafa;
+    --muted: #a1a1aa;
+    --surface: #18181b;
+    --border: #27272a;
+  }
+}
+
+:root[data-theme="dark"] {
+  --background: #0e0e11;
+  --foreground: #fafafa;
+  --muted: #a1a1aa;
+  --surface: #18181b;
+  --border: #27272a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Sichtbarer Fokusring – der Default von Tailwind Preflight entfernt ihn. */
+:focus-visible {
+  outline: 3px solid var(--color-brand-red);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
