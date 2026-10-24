@@ -52,6 +52,13 @@ export function findeOgBild(html, basis) {
   return adresse ? new URL(adresse, basis).href : null;
 }
 
+/** Zieht die kanonische Adresse aus dem HTML der Seite. */
+export function findeCanonical(html, basis) {
+  const tag = html.match(/<link[^>]*rel="canonical"[^>]*>/i)?.[0];
+  const adresse = tag?.match(/href="([^"]+)"/i)?.[1];
+  return adresse ? new URL(adresse, basis).href : null;
+}
+
 async function hole(adresse) {
   const antwort = await fetch(adresse, {
     redirect: "follow",
@@ -152,6 +159,18 @@ async function main() {
       throw new Error(`Sitemap-Zeile lautet: ${sitemap}`);
     }
     return "Allow und Sitemap-Zeile vorhanden";
+  });
+
+  // Die Adresse mit „www." ist schon weitergegeben worden, damals als der
+  // Apex über IPv6 kaputt war. Sie muss also erreichbar bleiben – und auf den
+  // Apex kanonisieren, sonst konkurrieren zwei Adressen um dieselbe
+  // Platzierung.
+  await pruefe("www-Adresse", async () => {
+    const html = await (await hole(`https://www.${DOMAIN}/`)).text();
+    const ziel = findeCanonical(html, BASIS);
+    // `new URL` hängt den Schrägstrich an – der Canonical im HTML steht ohne.
+    if (ziel !== `${BASIS}/`) throw new Error(`Canonical zeigt auf ${ziel}`);
+    return `erreichbar, Canonical auf ${ziel}`;
   });
 
   await pruefe("Vorschaubild", async () => {
