@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Läuft ein neuer Commit auf denselben Branch, wird der vorige Lauf abgebrochen.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# Kleinstmögliche Rechte. Der Workflow liest nur den Quelltext; er schreibt
+# nichts zurück und braucht keinen Zugriff auf Pakete, Issues oder Secrets.
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Lint, Typen, Tests, Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        # `npm ci` statt `npm install`: installiert exakt die Versionen aus
+        # package-lock.json und schlägt fehl, wenn Lockfile und package.json
+        # auseinanderlaufen.
+        run: npm ci
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: TypeScript
+        run: npm run typecheck
+
+      - name: Tests mit Abdeckung
+        run: npm run test:coverage
+
+      - name: Produktions-Build
+        run: npm run build
+
+      - name: Bildbestand prüfen
+        # Die Galerie-Einträge und die ausgelieferten Dateien müssen
+        # zusammenpassen; das prüft bereits ein Test, hier wird zusätzlich
+        # sichergestellt, dass überhaupt Bilder eingecheckt sind.
+        run: |
+          test -d public/bilder || { echo "public/bilder fehlt"; exit 1; }
+          test -d public/logo   || { echo "public/logo fehlt"; exit 1; }
+
+  audit:
+    name: Abhängigkeiten auf Schwachstellen prüfen
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: npm audit
+        # Bricht ab moderatem Schweregrad ab. Produktionsabhängigkeiten sind
+        # hier sehr wenige – ein Treffer ist also fast immer echt.
+        run: npm audit --audit-level=moderate

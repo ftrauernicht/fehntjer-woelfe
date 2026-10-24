@@ -1,0 +1,27 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 5
+    labels: ["abhängigkeiten"]
+    # Kleine Versionssprünge gesammelt in einem PR – sonst entstehen jede
+    # Woche fünf Pull Requests, die niemand durchsieht.
+    groups:
+      patch-und-minor:
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: "deps"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    labels: ["abhängigkeiten", "ci"]
+    commit-message:
+      prefix: "ci"

@@ -1,0 +1,56 @@
+[
+  {
+    "file": "stiltest/01-jubel.png",
+    "slug": "jubel",
+    "caption": "Tor!",
+    "alt": "Gezeichneter Wolf im roten Trikot jubelt mit beiden Pfoten in der Luft, hinter ihm rollt der Ball ins Tor."
+  },
+  {
+    "file": "stiltest/02-anstoss.png",
+    "slug": "anstoss",
+    "caption": "Gleich geht's los",
+    "alt": "Gezeichneter Wolf im roten Trikot steht mit einer Pfote auf dem Ball und wartet auf den Anstoß."
+  },
+  {
+    "file": "ausgabe/05-mannschaftsfoto.png",
+    "slug": "mannschaftsfoto",
+    "caption": "Aufstellung",
+    "alt": "Zwei gezeichnete Wölfe in roten Trikots posieren nebeneinander vor dem Tor für ein Mannschaftsfoto."
+  },
+  {
+    "file": "ausgabe/06-pokal.png",
+    "slug": "pokal",
+    "caption": "Der Pokal bleibt hier",
+    "alt": "Zwei gezeichnete Wölfe stemmen gemeinsam einen goldenen Pokal in die Höhe, Konfetti fällt."
+  },
+  {
+    "file": "ausgabe/07-regen.png",
+    "slug": "regen",
+    "caption": "Abgesagt wird nicht",
+    "alt": "Gezeichneter Wolf steht klatschnass im Regen auf dem Platz und grinst trotzdem."
+  },
+  {
+    "file": "ausgabe/08-winter.png",
+    "slug": "winter",
+    "caption": "Auch im Winter",
+    "alt": "Zwei gezeichnete Wölfe in roten Jacken stehen auf einem verschneiten Fußballplatz."
+  },
+  {
+    "file": "ausgabe/09-fairplay.png",
+    "slug": "fairplay",
+    "caption": "Fair bleibt fair",
+    "alt": "Zwei gezeichnete Wölfe geben sich nach dem Spiel die Pfote."
+  },
+  {
+    "file": "ausgabe/10-torwart.png",
+    "slug": "torwart",
+    "caption": "Gehalten",
+    "alt": "Gezeichneter Wolf im grünen Torwarttrikot fliegt durch die Luft und hält den Ball."
+  },
+  {
+    "file": "ausgabe/12-willkommen.png",
+    "slug": "willkommen",
+    "caption": "Moin!",
+    "alt": "Zwei gezeichnete Wölfe winken am geöffneten Tor des Sportplatzes zur Begrüßung."
+  }
+]

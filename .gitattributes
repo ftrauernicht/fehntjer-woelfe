@@ -1,0 +1,9 @@
+# Im Repository immer LF, im Arbeitsverzeichnis plattformüblich.
+# Ohne das erzeugt jeder Wechsel zwischen Windows und Linux Scheinänderungen.
+* text=auto eol=lf
+
+# Binärdateien nie anfassen.
+*.png binary
+*.webp binary
+*.ico binary
+*.woff2 binary
