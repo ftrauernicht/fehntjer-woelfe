@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { bewerteRobots, findeOgBild } from "../scripts/pruefe-live.mjs";
+import {
+  bewerteRobots,
+  findeCanonical,
+  findeOgBild,
+} from "../scripts/pruefe-live.mjs";
 
 /**
  * Der Wachhund läuft täglich gegen die veröffentlichte Seite und schlägt per
@@ -75,5 +79,23 @@ describe("findeOgBild", () => {
     ].join("");
 
     expect(findeOgBild(html, basis)).toBeNull();
+  });
+});
+
+describe("findeCanonical", () => {
+  const basis = "https://fehntjer-woelfe.de";
+
+  // Die Seite liefert auch unter „www." aus. Zeigt der Canonical dort nicht
+  // auf den Apex, bewerben sich zwei Adressen um dieselbe Platzierung.
+  it("findet die kanonische Adresse", () => {
+    const html = '<link rel="canonical" href="https://fehntjer-woelfe.de"/>';
+
+    // `new URL` normalisiert und hängt den Schrägstrich an – deshalb prüft
+    // das Skript gegen die Fassung mit Schrägstrich.
+    expect(findeCanonical(html, basis)).toBe(`${basis}/`);
+  });
+
+  it("gibt null zurück, wenn kein Canonical im HTML steht", () => {
+    expect(findeCanonical("<head><title>Wölfe</title></head>", basis)).toBeNull();
   });
 });
