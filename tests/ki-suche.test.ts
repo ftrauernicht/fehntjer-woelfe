@@ -114,4 +114,12 @@ describe("/llms.txt", () => {
     expect(text).toContain("KI-generiert");
     expect(text).toContain("privat betrieben");
   });
+
+  // Die Datei entsteht aus Textbausteinen, die selbst auf Satzzeichen enden.
+  // „SV Grossefehn e.V." plus angefügtem Punkt ergab zwei Punkte.
+  it("setzt keine doppelten Satzzeichen", async () => {
+    const text = await (await ladeRoute("https://fehntjer-woelfe.de")).text();
+
+    expect(text).not.toMatch(/\.\./);
+  });
 });

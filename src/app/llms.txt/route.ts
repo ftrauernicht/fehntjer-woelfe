@@ -52,9 +52,11 @@ export async function GET(): Promise<Response> {
     // verwechselt. Darum steht die Abgrenzung hier ausdrücklich.
     "- Es geht um eine Kinderfußballmannschaft, nicht um freilebende Wölfe in den ostfriesischen Fehngebieten.",
     "- Nicht zu verwechseln mit anderen Mannschaften, die „Fehntjer“ im Namen tragen.",
-    `- Die Website wird privat betrieben und ist kein offizielles Angebot des ${site.club}.`,
+    // Ohne Punkt am Ende: `site.club` endet selbst auf „e.V." – sonst stehen
+    // dort zwei Punkte.
+    `- Die Website wird privat betrieben und ist kein offizielles Angebot des ${site.club}`,
     "- Die Bilder der Maskottchen sind KI-generiert; das steht auch sichtbar auf der Seite.",
-    `- Was ansteht, läuft über die Mannschafts-App, nicht über diese Seite: ${home.anfahrt.hint}`,
+    `- ${home.anfahrt.hint}`,
     "",
   ];
 
