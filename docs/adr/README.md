@@ -44,3 +44,4 @@ Status · Datum
 | [0008](0008-dokumentationsgrenze.md) | Was öffentlich dokumentiert wird | akzeptiert |
 | [0009](0009-betrieb-ohne-nachsehen.md) | Betrieb ohne Nachsehen: Wachhund und automatische Zusammenführung | akzeptiert |
 | [0010](0010-antwortmaschinen.md) | Vorbereitung auf Antwortmaschinen | akzeptiert |
+| [0011](0011-totmannschalter-statt-monitoring.md) | Totmannschalter statt eigener Überwachung | akzeptiert |

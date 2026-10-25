@@ -12,7 +12,9 @@ name: Wachhund
 # 2. GitHub schaltet geplante Läufe nach 60 Tagen ohne Aktivität im
 #    Repository ab und schickt vorher eine Mail. Die wöchentlichen
 #    Dependabot-Zusammenführungen gelten als Aktivität und halten den
-#    Wachhund damit von allein wach.
+#    Wachhund damit von allein wach. Falls diese Kette doch einmal reißt,
+#    fängt der Totmannschalter am Ende dieses Laufs es auf: siehe
+#    ADR 0011.
 
 on:
   schedule:
@@ -34,6 +36,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
+    env:
+      # Ping-Adresse eines Checks bei healthchecks.io, als Repository-Secret
+      # `LEBENSZEICHEN_URL`. Ist es nicht gesetzt, bleibt die Variable leer
+      # und der letzte Schritt überspringt sich – der Wachhund läuft dann
+      # genauso, nur ohne Totmannschalter.
+      LEBENSZEICHEN: ${{ secrets.LEBENSZEICHEN_URL }}
+
     steps:
       - uses: actions/checkout@v5
         with:
@@ -46,4 +55,23 @@ jobs:
       # Kein `npm ci`: das Skript nutzt nur fetch, node:dns und node:tls.
       # Der Lauf braucht damit keine Abhängigkeiten und keine Minute.
       - name: Live-Prüfung
+        id: pruefung
         run: node scripts/pruefe-live.mjs
+
+      # Totmannschalter. Ein Wächter, dessen Schweigen „alles in Ordnung“
+      # bedeutet, kann seinen eigenen Tod nicht melden: ein Lauf, der nie
+      # startet, sieht genauso aus wie ein grüner Tag. Darum meldet sich
+      # dieser Lauf nach außen, und healthchecks.io schlägt Alarm, wenn die
+      # Meldung ausbleibt. Begründung: ADR 0011.
+      #
+      # Der Ping darf den Lauf nicht rot machen – eine Störung bei
+      # healthchecks.io ist kein Problem dieser Seite. Kommt er dauerhaft
+      # nicht an, meldet healthchecks.io das von allein.
+      - name: Lebenszeichen senden
+        if: ${{ !cancelled() && env.LEBENSZEICHEN != '' }}
+        run: |
+          ziel="$LEBENSZEICHEN"
+          if [ "${{ steps.pruefung.outcome }}" != "success" ]; then
+            ziel="$LEBENSZEICHEN/fail"
+          fi
+          curl --fail --silent --show-error --max-time 10 --retry 3 "$ziel" || true

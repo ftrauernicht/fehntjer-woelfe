@@ -57,6 +57,12 @@ und `CI` heißt – wer die CI aufweicht oder umbenennt, nimmt der
 Zusammenführung ihr einziges Prüftor. Begründung in
 [`docs/adr/0009-betrieb-ohne-nachsehen.md`](docs/adr/0009-betrieb-ohne-nachsehen.md).
 
+Der letzte Schritt des Wachhunds ist ein **Totmannschalter**: Er pingt
+healthchecks.io an, damit ein Lauf, der gar nicht stattfindet, nicht wie ein
+grüner Tag aussieht. Wer das Secret `LEBENSZEICHEN_URL` entfernt, schaltet den
+Alarm stumm, ohne dass irgendwo etwas rot wird. Begründung in
+[`docs/adr/0011-totmannschalter-statt-monitoring.md`](docs/adr/0011-totmannschalter-statt-monitoring.md).
+
 ## Bilder
 
 `src/content/gallery.json` ist die gemeinsame Quelle für die Website und für

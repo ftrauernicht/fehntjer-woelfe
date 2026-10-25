@@ -112,7 +112,7 @@ Der Betrieb soll kein regelmäßiges Nachsehen verlangen.
 |---|---|---|
 | `ci.yml` | Push, Pull Request | Lint, Typecheck, Tests mit Abdeckung, Produktions-Build, `npm audit`, Bildbestand |
 | `codeql.yml` | wöchentlich | statische Sicherheitsanalyse |
-| `wachhund.yml` | täglich, 06:30 UTC | prüft die **veröffentlichte** Seite von außen |
+| `wachhund.yml` | täglich, 06:30 UTC | prüft die **veröffentlichte** Seite von außen, meldet sich danach bei healthchecks.io |
 | `dependabot-zusammenfuehren.yml` | nach grüner CI | führt Dependabots Pull Request selbst zusammen |
 
 **Der Wachhund** prüft Erreichbarkeit, Indexierungsfreigabe, Sitemap,
@@ -124,6 +124,20 @@ funktioniert lokal:
 ```bash
 npm run pruefe:live
 ```
+
+**Der Totmannschalter** schließt die Lücke, die jeder Wächter hat: Ein Lauf,
+der nie startet, sieht aus wie ein grüner Tag. Darum pingt der Wachhund am
+Ende einen Check bei healthchecks.io an. Bleibt der Ping aus – abgeschalteter
+Zeitplan, Störung bei GitHub, gelöschter Workflow –, schlägt healthchecks.io
+Alarm, und zwar auf einem Weg, der nicht durch GitHub führt. Nötig ist dafür
+genau ein Repository-Secret:
+
+| Secret | Inhalt |
+|---|---|
+| `LEBENSZEICHEN_URL` | Ping-Adresse eines Checks bei healthchecks.io, Zeitplan `30 6 * * *` (UTC), Toleranz 6 Stunden |
+
+Ist das Secret nicht gesetzt, überspringt sich der Schritt; der Wachhund
+läuft unverändert weiter.
 
 **Dependabot** fasst kleine Versionssprünge zu einem wöchentlichen Pull
 Request zusammen. Dieser und Updates der GitHub-Actions gehen nach grüner CI
