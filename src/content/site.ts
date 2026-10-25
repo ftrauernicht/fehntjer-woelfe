@@ -127,6 +127,15 @@ export const site = {
   club: "SV Grossefehn e.V.",
   /** Schreibweise des Ortsnamens im Duden und auf der Landkarte. */
   clubUmlaut: "SV Großefehn",
+  /**
+   * Die Seite des Gesamtvereins. Sichtbar verlinkt, denn der Vereinsabsatz
+   * verweist auf ihn – und ein Verweis ohne Link lässt den Leser stehen.
+   *
+   * Der Link ist zugleich das einzige Band zwischen dieser Mannschaftsseite
+   * und der Vereinsentität, das wir selbst setzen können. Such- und
+   * KI-Systeme verknüpfen Dinge über solche Verweise, nicht über Absichten.
+   */
+  clubUrl: "https://sv-grossefehn.de",
   locality: "Großefehn",
   region: "Niedersachsen",
 
@@ -177,6 +186,7 @@ export const home = {
   club: {
     title: `Teil des ${"SV Grossefehn e.V."}`,
     text: "Die Fehntjer Wölfe sind eine Nachwuchsmannschaft des Sportvereins Grossefehn. Alles rund um den Gesamtverein läuft über den Verein selbst – hier geht es nur um unsere Mannschaft.",
+    linkLabel: "Zur Seite des Vereins",
   },
 
   anfahrt: {

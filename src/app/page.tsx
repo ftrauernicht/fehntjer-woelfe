@@ -115,6 +115,16 @@ export default function Home() {
             <span className="font-bold">{home.club.title}</span>
             <br />
             <span className="text-muted">{home.club.text}</span>
+            <br />
+            <a
+              href={site.clubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex min-h-11 items-center font-semibold text-brand-red underline underline-offset-4 hover:text-brand-red-dark"
+            >
+              {home.club.linkLabel}
+              <span className="sr-only"> (öffnet in neuem Tab)</span>
+            </a>
           </p>
         </section>
 

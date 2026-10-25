@@ -161,6 +161,16 @@ async function main() {
     return "Allow und Sitemap-Zeile vorhanden";
   });
 
+  // Die Zusammenfassung für Sprachmodelle. Sie entsteht aus den Stammdaten,
+  // kann also nicht veralten – aber ein stilles 404 würde niemandem auffallen.
+  await pruefe("llms.txt", async () => {
+    const text = await (await hole(`${BASIS}/llms.txt`)).text();
+    for (const pflicht of ["Fehntjer Wölfe", "Fehntjer Woelfe", "Mühlenstadion"]) {
+      if (!text.includes(pflicht)) throw new Error(`"${pflicht}" fehlt`);
+    }
+    return `${text.split("\n").length} Zeilen`;
+  });
+
   // Die Adresse mit „www." ist schon weitergegeben worden, damals als der
   // Apex über IPv6 kaputt war. Sie muss also erreichbar bleiben – und auf den
   // Apex kanonisieren, sonst konkurrieren zwei Adressen um dieselbe

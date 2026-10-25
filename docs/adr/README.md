@@ -43,3 +43,4 @@ Status · Datum
 | [0007](0007-typescript-6.md) | TypeScript 6 statt 7 | akzeptiert |
 | [0008](0008-dokumentationsgrenze.md) | Was öffentlich dokumentiert wird | akzeptiert |
 | [0009](0009-betrieb-ohne-nachsehen.md) | Betrieb ohne Nachsehen: Wachhund und automatische Zusammenführung | akzeptiert |
+| [0010](0010-antwortmaschinen.md) | Vorbereitung auf Antwortmaschinen | akzeptiert |

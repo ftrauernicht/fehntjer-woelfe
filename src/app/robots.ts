@@ -13,6 +13,13 @@ import { site } from "@/content/site";
  *     Anbieterkennzeichnung ist nach § 5 DDG angreifbar.
  *
  * Beides zusammen steckt in `site.mayBeIndexed`.
+ *
+ * **KI-Crawler sind bewusst eingeschlossen.** `User-Agent: *` erlaubt auch
+ * GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot und Google-Extended. Für
+ * eine Mannschaft, die gefunden werden will, ist jede Antwortmaschine ein
+ * Kanal; sie auszusperren würde nur die eigene Sichtbarkeit kosten. Wer das
+ * später anders sieht, sperrt sie hier namentlich – und schreibt ein ADR
+ * dazu, denn es ist eine inhaltliche Entscheidung, keine technische.
  */
 export default function robots(): MetadataRoute.Robots {
   if (!site.mayBeIndexed) {

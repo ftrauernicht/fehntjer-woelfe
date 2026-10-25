@@ -160,6 +160,28 @@ Die Schreibweisen „Wölfe"/„Woelfe" und „Großefehn"/„Grossefehn" kommen
 absichtlich beide im Seitentext vor, in ganzen Sätzen statt als Stichwortliste.
 `inhalte.test.ts` hält fest, dass sie beim Umformulieren nicht verlorengehen.
 
+### Antwortmaschinen
+
+Für KI-Antworten – Googles KI-Übersicht, ChatGPT, Perplexity – ist gesetzt:
+
+- **ein verbundener Datengraph:** Mannschaft und Website tragen feste
+  Kennungen, die Website verweist über `about` auf die Mannschaft, die
+  Mannschaft über `memberOf.url` auf den Verein
+- **eine Definition in einem Satz** (`description`), die für sich allein
+  verständlich ist – Name, Art, Verein, Ort
+- **ein sichtbarer Link auf die Vereinsseite**, das einzige Band zur
+  Vereinsentität, das sich von hier aus setzen lässt
+- **[`/llms.txt`](src/app/llms.txt/route.ts)** mit einer Zusammenfassung samt
+  Abgrenzung gegen echte Wölfe und ähnlich benannte Vereine; erzeugt aus
+  `site.ts`, also nicht pflegebedürftig
+- **KI-Crawler sind zugelassen** (`User-Agent: *` schließt GPTBot, ClaudeBot,
+  PerplexityBot, OAI-SearchBot und Google-Extended ein)
+
+Was das **nicht** löst: eine Antwort braucht mehr als eine Quelle. Solange
+keine andere Seite die Mannschaft erwähnt, bleibt die Antwortschicht
+zurückhaltend – unabhängig vom Markup. Siehe
+[ADR 0010](docs/adr/0010-antwortmaschinen.md).
+
 ## Dokumentation
 
 | Ort | Inhalt |

@@ -24,6 +24,17 @@ describe("Startseite", () => {
     expect(link.getAttribute("rel")).toContain("noreferrer");
   });
 
+  // Der Vereinsabsatz verweist auf den Verein („läuft über den Verein
+  // selbst"). Ohne Link lässt dieser Satz den Leser stehen – und die
+  // Verknüpfung der beiden Entitäten fehlt auch den Suchmaschinen.
+  it("verlinkt die Seite des Vereins", () => {
+    render(<Home />);
+    const link = screen.getByRole("link", { name: /verein/i });
+    expect(link).toHaveAttribute("href", site.clubUrl);
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link.getAttribute("rel")).toContain("noopener");
+  });
+
   it("bietet die E-Mail-Adresse als mailto an", () => {
     render(<Home />);
     const links = screen
