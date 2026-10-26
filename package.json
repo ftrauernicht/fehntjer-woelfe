@@ -40,7 +40,7 @@
     "jsdom": "^29.1.1",
     "sharp": "^0.35.5",
     "tailwindcss": "^4",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vitest": "^5.0.5"
   },
   "description": "Platzhalterseite der Fehntjer Woelfe, der F-Jugend des SV Grossefehn."
