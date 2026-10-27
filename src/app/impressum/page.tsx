@@ -11,6 +11,9 @@ export const metadata = pageMetadata({
   noindex: true,
 });
 
+/** „frank-trauernicht.de“ – ohne Schema, so wie man es vorliest. */
+const betreiberseite = new URL(impressum.website).host;
+
 export default function ImpressumPage() {
   return (
     <div className="mx-auto w-full max-w-2xl px-5 py-16 sm:py-24">
@@ -45,6 +48,18 @@ export default function ImpressumPage() {
           </span>
         ))}
       </address>
+      <p className="mt-3 text-muted">
+        Eigene Seite des Betreibers:{" "}
+        <a
+          href={impressum.website}
+          target="_blank"
+          rel="me noopener noreferrer"
+          className="underline underline-offset-4 hover:text-foreground"
+        >
+          {betreiberseite}
+          <span className="sr-only"> (öffnet in neuem Tab)</span>
+        </a>
+      </p>
 
       <h2 className="mt-8 text-lg font-semibold">Kontakt</h2>
       <p className="mt-3 text-muted">

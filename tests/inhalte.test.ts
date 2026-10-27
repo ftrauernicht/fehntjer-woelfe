@@ -12,6 +12,14 @@ describe("Stammdaten", () => {
     expect(site.email).toMatch(/^[^@\s]+@fehntjer-woelfe\.de$/);
   });
 
+  it("nennt die Betreiberseite absolut und über https", () => {
+    // Die Impressumsseite leitet den sichtbaren Text mit `new URL` ab. Eine
+    // Adresse ohne Schema würde die Seite zur Laufzeit werfen.
+    const url = new URL(impressum.website);
+    expect(url.protocol).toBe("https:");
+    expect(url.hostname).toBe("frank-trauernicht.de");
+  });
+
   it("verlinkt ein gültiges Instagram-Profil", () => {
     const url = new URL(site.instagram);
     expect(url.protocol).toBe("https:");

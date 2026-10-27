@@ -6,7 +6,7 @@ import ImpressumPage from "@/app/impressum/page";
 import NotFound from "@/app/not-found";
 import Home from "@/app/page";
 import { gallery } from "@/content/gallery";
-import { impressumIsComplete, site, venue } from "@/content/site";
+import { impressum, impressumIsComplete, site, venue } from "@/content/site";
 
 describe("Startseite", () => {
   it("hat genau eine Hauptüberschrift", () => {
@@ -106,6 +106,19 @@ describe("Impressum", () => {
   it("stellt klar, dass die Seite privat betrieben wird", () => {
     render(<ImpressumPage />);
     expect(screen.getByText(/kein offizielles Angebot/i)).toBeInTheDocument();
+  });
+
+  // Der Satz „privat betrieben" steht nebenan; ohne Link bleibt er eine
+  // Behauptung. `rel="me"` zeichnet beide Seiten als dieselbe Person aus –
+  // darauf stützen sich Identitätsprüfungen.
+  it("verlinkt die eigene Seite des Betreibers", () => {
+    render(<ImpressumPage />);
+    const link = screen.getByRole("link", { name: /frank-trauernicht\.de/i });
+    expect(link).toHaveAttribute("href", impressum.website);
+    expect(link).toHaveAttribute("target", "_blank");
+    const rel = link.getAttribute("rel")?.split(" ") ?? [];
+    expect(rel).toContain("me");
+    expect(rel).toContain("noopener");
   });
 
   it("warnt sichtbar, solange Platzhalter enthalten sind", () => {

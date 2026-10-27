@@ -58,6 +58,15 @@ export const impressum = {
    */
   addressLines: ["Süderwieke Nord 20", "26629 Großefehn", "Deutschland"],
   email: "mail@fehntjer-woelfe.de",
+  /**
+   * Die eigene Seite des Betreibers. Keine Pflichtangabe nach § 5 DDG, aber
+   * sie macht die Aussage „privat betrieben“ überprüfbar: Zweck des
+   * Impressums ist, dass erkennbar ist, wer hinter der Seite steht.
+   *
+   * Absolut und mit Schema – die Impressumsseite leitet den sichtbaren Text
+   * mit `new URL` daraus ab und würde bei einer Adresse ohne Schema werfen.
+   */
+  website: "https://frank-trauernicht.de",
 } as const;
 
 /** true, sobald kein Platzhalter mehr im Impressum steht. */
