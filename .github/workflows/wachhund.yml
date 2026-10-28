@@ -18,8 +18,11 @@ name: Wachhund
 
 on:
   schedule:
-    # 06:30 UTC, also 07:30 oder 08:30 Ortszeit – eine etwaige Mail liegt
-    # damit vor dem Frühstück im Postfach.
+    # 06:30 UTC ist der Wunsch, nicht die Zusage: GitHub stellt geplante Läufe
+    # in eine Warteschlange und startete sie hier gemessen fünf bis sieben
+    # Stunden später. Eine etwaige Mail liegt also um die Mittagszeit im
+    # Postfach. Der Totmannschalter rechnet deshalb mit Abständen statt mit
+    # Uhrzeiten – ADR 0012.
     - cron: "30 6 * * *"
   workflow_dispatch:
 

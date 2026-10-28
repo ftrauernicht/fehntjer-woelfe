@@ -46,6 +46,10 @@ Einstellung des Checks: Zeitplan `30 6 * * *` in UTC, Toleranz **6 Stunden**.
 Die sechs Stunden sind kein Bauchgefühl, sondern der gemessene Verzug vom
 25.10.2026 plus Luft.
 
+> Dieser Absatz ist überholt: eine Messung war zu wenig. Der Verzug liegt
+> systematisch bei fünf bis sieben Stunden, die Toleranz erzeugte Fehlalarme.
+> Gültig ist [ADR 0012](0012-totmannschalter-misst-abstaende.md).
+
 **2. Kein Icinga, und auch kein zweiter, abfragender Überwachungsdienst.**
 Begründung in den Alternativen.
 

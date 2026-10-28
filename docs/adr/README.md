@@ -45,3 +45,4 @@ Status · Datum
 | [0009](0009-betrieb-ohne-nachsehen.md) | Betrieb ohne Nachsehen: Wachhund und automatische Zusammenführung | akzeptiert |
 | [0010](0010-antwortmaschinen.md) | Vorbereitung auf Antwortmaschinen | akzeptiert |
 | [0011](0011-totmannschalter-statt-monitoring.md) | Totmannschalter statt eigener Überwachung | akzeptiert |
+| [0012](0012-totmannschalter-misst-abstaende.md) | Der Totmannschalter misst den Abstand, nicht die Uhrzeit | akzeptiert |

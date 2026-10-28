@@ -134,7 +134,13 @@ genau ein Repository-Secret:
 
 | Secret | Inhalt |
 |---|---|
-| `LEBENSZEICHEN_URL` | Ping-Adresse eines Checks bei healthchecks.io, Zeitplan `30 6 * * *` (UTC), Toleranz 6 Stunden |
+| `LEBENSZEICHEN_URL` | Ping-Adresse eines Checks bei healthchecks.io |
+
+Der Check steht im Modus **simple**, Abstand **1 Tag**, Toleranz **8 Stunden**
+– er misst den Abstand zwischen zwei Lebenszeichen, nicht die Einhaltung einer
+Uhrzeit. GitHub startet geplante Läufe gemessen fünf bis sieben Stunden zu
+spät; eine an die Uhrzeit gebundene Toleranz erzeugt daraus Fehlalarme
+([ADR 0012](docs/adr/0012-totmannschalter-misst-abstaende.md)).
 
 Ist das Secret nicht gesetzt, überspringt sich der Schritt; der Wachhund
 läuft unverändert weiter.
