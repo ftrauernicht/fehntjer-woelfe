@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Von Hand startbar. Fuehrt der Auto-Merge-Workflow einen Pull Request mit
+  # dem GITHUB_TOKEN zusammen, loest der daraus entstehende Push auf main
+  # keinen Lauf aus - GitHub verhindert so Endlosschleifen. Auf main steht
+  # dann weiter das Ergebnis von davor. Hiermit laesst sich das nachholen.
+  workflow_dispatch: {}
 
 # Läuft ein neuer Commit auf denselben Branch, wird der vorige Lauf abgebrochen.
 concurrency:
