@@ -46,3 +46,4 @@ Status · Datum
 | [0010](0010-antwortmaschinen.md) | Vorbereitung auf Antwortmaschinen | akzeptiert |
 | [0011](0011-totmannschalter-statt-monitoring.md) | Totmannschalter statt eigener Überwachung | akzeptiert |
 | [0012](0012-totmannschalter-misst-abstaende.md) | Der Totmannschalter misst den Abstand, nicht die Uhrzeit | akzeptiert |
+| [0013](0013-audit-trennt-anwendung-von-werkzeug.md) | Die Schwachstellenprüfung trennt Anwendung von Werkzeug | akzeptiert |

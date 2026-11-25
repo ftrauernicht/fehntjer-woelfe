@@ -85,7 +85,8 @@ jobs:
 
       - run: npm ci
 
-      - name: npm audit
-        # Bricht ab moderatem Schweregrad ab. Produktionsabhängigkeiten sind
-        # hier sehr wenige – ein Treffer ist also fast immer echt.
-        run: npm audit --audit-level=moderate
+      - name: Schwachstellen prüfen
+        # Zwei Maßstäbe: ausgeliefert bricht ab `moderate` ab, die
+        # Werkzeugkette erst ab `high`. Warum, steht in
+        # docs/adr/0013-audit-trennt-anwendung-von-werkzeug.md
+        run: npm run pruefe:abhaengigkeiten
