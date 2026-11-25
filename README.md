@@ -110,7 +110,7 @@ Der Betrieb soll kein regelmäßiges Nachsehen verlangen.
 
 | Workflow | Wann | Was |
 |---|---|---|
-| `ci.yml` | Push, Pull Request | Lint, Typecheck, Tests mit Abdeckung, Produktions-Build, `npm audit`, Bildbestand |
+| `ci.yml` | Push, Pull Request | Lint, Typecheck, Tests mit Abdeckung, Produktions-Build, Schwachstellen, Bildbestand |
 | `codeql.yml` | wöchentlich | statische Sicherheitsanalyse |
 | `wachhund.yml` | täglich, 06:30 UTC | prüft die **veröffentlichte** Seite von außen, meldet sich danach bei healthchecks.io |
 | `dependabot-zusammenfuehren.yml` | nach grüner CI | führt Dependabots Pull Request selbst zusammen |
